@@ -2,49 +2,65 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Excellentia RDC — By N.T</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial,sans-serif;
     background:#eef2f7;
     color:#172033;
 }
-.container{
-    width:min(950px,94%);
+
+.wrap{
+    max-width:950px;
     margin:auto;
-    padding:20px 0 40px;
+    padding:18px;
 }
+
 .card{
     background:#fff;
     border-radius:16px;
-    padding:24px;
-    margin-top:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    padding:22px;
+    margin-top:18px;
+    box-shadow:0 5px 20px #0001;
 }
-.hidden{display:none!important}
-h1,h2{line-height:1.25}
-.small{color:#667085}
-button{
-    cursor:pointer;
-    font:inherit;
+
+.hidden{
+    display:none!important;
 }
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.small{
+    color:#667085;
+}
+
 .btn{
     border:0;
     border-radius:10px;
-    padding:13px 18px;
+    padding:13px 17px;
     margin:5px 3px;
     background:#172033;
-    color:white;
+    color:#fff;
     font-weight:bold;
+    cursor:pointer;
 }
-.btn.secondary{
-    background:#e8edf5;
+
+.btn.alt{
+    background:#e7ecf4;
     color:#172033;
 }
+
 input{
     width:100%;
     padding:14px;
@@ -53,237 +69,305 @@ input{
     font-size:16px;
     margin:10px 0;
 }
-.top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
-}
+
 .timer{
-    font-size:24px;
+    font-size:23px;
     font-weight:bold;
 }
-.progress{
+
+.bar{
     height:9px;
     background:#e2e7ef;
-    border-radius:20px;
+    border-radius:99px;
     overflow:hidden;
     margin:12px 0 20px;
 }
-.progressFill{
+
+.fill{
     height:100%;
     width:0;
     background:#172033;
 }
+
 .option{
     display:block;
     width:100%;
     text-align:left;
-    padding:15px;
+    padding:14px;
     margin:10px 0;
     border:2px solid #dce3ee;
     border-radius:10px;
     background:#f8fafc;
+    cursor:pointer;
+    font-size:16px;
 }
-.option:hover{
-    border-color:#172033;
-}
+
 .option.selected{
     border-color:#172033;
-    background:#e7edf6;
+    background:#e8eef7;
 }
+
 .reading{
     line-height:1.8;
     text-align:justify;
     white-space:pre-line;
-    max-height:65vh;
+    max-height:68vh;
     overflow:auto;
 }
+
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(48px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(45px,1fr));
     gap:6px;
-    margin-top:15px;
+    margin-top:12px;
 }
+
 .qbtn{
     border:1px solid #ccd5e3;
-    background:white;
+    background:#fff;
     border-radius:7px;
-    padding:9px 4px;
+    padding:8px;
+    cursor:pointer;
 }
-.qbtn.done{background:#dce7f4}
+
+.qbtn.done{
+    background:#dce7f4;
+}
+
 .qbtn.current{
     border:2px solid #172033;
     font-weight:bold;
 }
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:#0008;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    z-index:20;
+}
+
+.modalbox{
+    background:#fff;
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border-radius:15px;
+    padding:22px;
+}
+
 .error{
     background:#fff5f5;
     border-left:4px solid #b42318;
     padding:12px;
     margin:10px 0;
-    border-radius:5px;
 }
+
 .badge{
     display:inline-block;
-    padding:7px 10px;
+    background:#e7ecf4;
     border-radius:20px;
-    background:#e9eef5;
+    padding:7px 10px;
     margin:4px;
-}
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.7);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:100;
-}
-.modalBox{
-    background:white;
-    width:min(850px,100%);
-    max-height:90vh;
-    overflow:auto;
-    padding:25px;
-    border-radius:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrap">
 
-<!-- ACCUEIL -->
 <section id="home" class="card">
-    <h1>Excellentia RDC — By N.T</h1>
 
-    <p>
-        Test d'entraînement niveau <b>moyen</b>
-    </p>
+<h1>Excellentia RDC — By N.T</h1>
 
-    <p class="small">
-        100 questions • 25 Culture générale • 25 Français •
-        25 English • 25 Maths
-    </p>
+<p>
+<b>Test complet — niveau moyen renforcé</b>
+</p>
 
-    <input id="candidateName" type="text"
-           placeholder="Entre ton nom et ton postnom">
+<p class="small">
+100 questions • 25 Culture générale • 25 Français •
+25 English • 25 Maths
+</p>
 
-    <button class="btn" id="startBtn">
-        COMMENCER LE TEST
-    </button>
+<input
+id="name"
+placeholder="Nom et postnom"
+>
+
+<button class="btn" id="start">
+COMMENCER LE TEST
+</button>
+
 </section>
 
 
-<!-- LECTURE -->
 <section id="reading" class="card hidden">
 
-    <div class="top">
-        <div>
-            <h2 id="readingTitle"></h2>
-            <p class="small">
-                Temps conseillé : 15 minutes
-            </p>
-        </div>
+<div class="top">
 
-        <div class="timer" id="readingTimer">
-            15:00
-        </div>
-    </div>
+<div>
 
-    <div id="readingText" class="reading"></div>
+<h2 id="rtitle"></h2>
 
-    <br>
+<p class="small">
+Lecture : maximum 15 minutes
+</p>
 
-    <button class="btn" id="skipReading">
-        PASSER → COMMENCER LES QUESTIONS
-    </button>
+</div>
+
+<div
+class="timer"
+id="rtimer">
+15:00
+</div>
+
+</div>
+
+<div
+id="rtext"
+class="reading">
+</div>
+
+<button
+class="btn"
+id="skip">
+
+PASSER → COMMENCER LES QUESTIONS
+
+</button>
 
 </section>
 
 
-<!-- TEST -->
 <section id="quiz" class="card hidden">
 
-    <div class="top">
-        <div>
-            <b id="questionNumber"></b>
-            <div id="subject" class="small"></div>
-        </div>
+<div class="top">
 
-        <div id="questionTimer" class="timer">
-            01:00
-        </div>
-    </div>
+<div>
 
-    <div class="progress">
-        <div id="progressFill" class="progressFill"></div>
-    </div>
+<b id="progress"></b>
 
-    <h2 id="questionText"></h2>
+<div
+id="subject"
+class="small">
+</div>
 
-    <div id="options"></div>
+</div>
 
-    <div class="top">
-        <button class="btn secondary" id="previousBtn">
-            ← PRÉCÉDENTE
-        </button>
+<div
+id="timer"
+class="timer">
 
-        <button class="btn" id="nextBtn">
-            SUIVANTE →
-        </button>
-    </div>
+01:00
 
-    <button class="btn secondary" id="textBtn">
-        VOIR LE TEXTE
-    </button>
+</div>
 
-    <div id="questionNavigation" class="grid"></div>
+</div>
+
+<div class="bar">
+
+<div
+id="fill"
+class="fill">
+</div>
+
+</div>
+
+<h2 id="question"></h2>
+
+<div id="options"></div>
+
+<div class="top">
+
+<button
+class="btn alt"
+id="prev">
+
+← PRÉCÉDENTE
+
+</button>
+
+<button
+class="btn"
+id="next">
+
+SUIVANTE →
+
+</button>
+
+</div>
+
+<button
+class="btn alt"
+id="showText">
+
+VOIR LE TEXTE
+
+</button>
+
+<div
+id="nav"
+class="grid">
+</div>
 
 </section>
 
 
-<!-- RESULTATS -->
 <section id="results" class="card hidden">
 
-    <h1>Résultats</h1>
+<h1>Résultats</h1>
 
-    <h2 id="finalScore"></h2>
+<h2 id="score"></h2>
 
-    <div id="subjectScores"></div>
+<div id="subjects"></div>
 
-    <h2>Erreurs</h2>
+<h2>Erreurs</h2>
 
-    <div id="errors"></div>
+<div id="errors"></div>
 
-    <button class="btn" onclick="location.reload()">
-        RECOMMENCER
-    </button>
+<button
+class="btn"
+onclick="location.reload()">
+
+NOUVELLE TENTATIVE
+
+</button>
 
 </section>
 
 </div>
 
 
-<!-- MODAL TEXTE -->
-<div id="textModal" class="modal">
+<div
+id="modal"
+class="modal">
 
-    <div class="modalBox">
+<div class="modalbox">
 
-        <div class="top">
-            <h2 id="modalTitle"></h2>
+<div class="top">
 
-            <button class="btn secondary" id="closeModal">
-                FERMER
-            </button>
-        </div>
+<h2 id="mtitle"></h2>
 
-        <div id="modalText" class="reading"></div>
+<button
+class="btn alt"
+id="close">
 
-    </div>
+FERMER
+
+</button>
+
+</div>
+
+<div
+id="mtext"
+class="reading">
+</div>
+
+</div>
 
 </div>
 
@@ -291,1301 +375,1325 @@ input{
 <script>
 
 /* =========================================================
-   BANQUE DE QUESTIONS — NIVEAU MOYEN
+   TEXTE FRANÇAIS
 ========================================================= */
 
-const QUESTIONS = [
+const FRENCH_TEXT = `Dans une préparation sérieuse, la difficulté ne vient pas seulement de la quantité de connaissances à retenir. Elle vient aussi de la capacité à mobiliser ces connaissances au moment précis où une situation l'exige. Un candidat peut connaître une définition, une règle de grammaire ou une formule mathématique et pourtant échouer à l'utiliser correctement. La connaissance isolée doit donc progressivement devenir une compétence.
 
-/* ================= CULTURE GENERALE ================= */
+La première étape consiste à comprendre. Comprendre une notion signifie être capable de l'expliquer avec ses propres mots, de distinguer ce qui la caractérise de ce qui lui ressemble et de reconnaître les situations dans lesquelles elle s'applique. Une mémorisation purement mécanique peut être utile pour certains éléments, notamment les dates, les formes verbales ou certaines définitions, mais elle devient insuffisante lorsque la question exige une comparaison, une déduction ou l'identification d'une nuance.
+
+La deuxième étape est l'entraînement. Répondre à une question sans regarder la solution oblige l'esprit à récupérer l'information. Cette récupération est plus exigeante qu'une simple relecture, mais elle révèle beaucoup mieux les connaissances réellement disponibles. Lorsqu'une réponse est fausse, la correction ne devrait pas se limiter à donner la bonne proposition. Il faut chercher la cause de l'erreur : confusion entre deux notions, mauvaise lecture de la consigne, calcul précipité, oubli d'une condition ou application d'une règle dans un contexte inadapté.
+
+La troisième étape est la répétition espacée. Une notion que l'on vient d'étudier paraît souvent facile. Quelques jours plus tard, elle peut sembler moins accessible. Cette difficulté n'est pas nécessairement un signe d'échec ; elle peut être l'occasion de renforcer la récupération de l'information. Revenir plusieurs fois sur une notion, avec des exercices différents, permet de construire des connaissances plus résistantes.
+
+La gestion du temps constitue une autre dimension de la préparation. Dans un examen sélectif, toutes les questions ne demandent pas le même effort. Certaines vérifient une connaissance directe ; d'autres exigent plusieurs étapes de raisonnement. Le candidat doit donc apprendre à lire rapidement sans devenir superficiel. Une réponse donnée en quelques secondes n'est pas forcément une bonne réponse, tout comme une réponse longuement réfléchie n'est pas forcément exacte. L'objectif est de consacrer à chaque question un temps proportionné à sa difficulté.
+
+Enfin, l'erreur doit être transformée en information. Celui qui note uniquement son score connaît son résultat, mais pas nécessairement la cause de ses difficultés. Celui qui classe ses erreurs par nature — vocabulaire, conjugaison, raisonnement, calcul, géographie, histoire ou lecture — peut identifier des tendances et adapter son travail. Cette démarche exige de l'honnêteté : il faut accepter de revoir les notions que l'on croyait maîtriser.
+
+Une préparation efficace n'est donc pas une simple accumulation d'heures. Elle associe compréhension, récupération active, entraînement, correction, répétition et gestion du temps. À long terme, cette méthode permet non seulement de mieux répondre aux questions d'un examen, mais aussi de développer une capacité générale à apprendre, à vérifier une information et à raisonner avec précision.`;
+
+
+/* =========================================================
+   ENGLISH TEXT
+========================================================= */
+
+const ENGLISH_TEXT = `Learning effectively is not simply a matter of spending more hours with a book. Time is important, but the way that time is used can determine whether knowledge becomes durable or disappears after a few days. A learner who reads the same page repeatedly may feel that the material has become familiar. However, familiarity is not always the same as the ability to recall and use information independently.
+
+Active recall is one way of testing real understanding. Instead of looking at a definition and immediately moving on, the learner can close the book and attempt to explain the concept from memory. In a language class, this may mean producing a sentence with a new word or choosing the correct tense without checking the rule first. The effort involved in retrieving information can reveal gaps that passive reading often hides.
+
+Mistakes are also valuable when they are examined carefully. A student may repeatedly use the wrong tense because the difference between two time references is unclear. Another student may know the rule but make mistakes because of speed or lack of attention. These problems require different solutions. Memorizing the same rule again will not necessarily solve an error caused by careless reading.
+
+Regular practice is another important factor. Short, concentrated sessions can be easier to maintain than occasional periods of very intensive work. Regular exposure also gives learners repeated opportunities to encounter the same structure in different contexts. A grammatical form that seems abstract in a lesson can become easier to understand when it appears in a story, a conversation or a practical situation.
+
+Good preparation also requires a willingness to work on difficult material. It is tempting to repeat exercises that are already easy because success feels reassuring. Yet difficult questions often reveal the boundaries of one's current knowledge. Working on them, checking the correction and trying again can gradually move those boundaries.
+
+Finally, effective learners understand that progress is rarely perfectly linear. There may be days when a familiar idea seems difficult and other days when a previously difficult structure becomes automatic. What matters is the general direction created by consistent practice. Learning is a process of understanding, attempting, correcting and attempting again.`;
+
+
+/* =========================================================
+   100 QUESTIONS
+========================================================= */
+
+const Q = [
+
+/* =========================================================
+   CULTURE GENERALE — 25
+========================================================= */
 
 {
-subject:"Culture générale",
-question:"Après l'indépendance de 1960, quelle fonction occupait Joseph Kasa-Vubu ?",
-options:[
-"Président de la République",
-"Premier ministre",
-"Président de l'Assemblée nationale",
-"Gouverneur du Katanga"
-],
-answer:0
-},
-
-{
-subject:"Culture générale",
-question:"Quel événement marque principalement le 17 mai 1997 dans l'histoire récente de la RDC ?",
-options:[
-"La fin du régime de Mobutu et l'arrivée de l'AFDL à Kinshasa",
+s:"Culture générale",
+q:"Quel événement est directement associé au 30 juin 1960 ?",
+o:[
 "L'indépendance du Congo",
-"La création de l'État indépendant du Congo",
-"La promulgation de la Constitution de 2006"
+"La prise de pouvoir de Mobutu",
+"La création du Zaïre",
+"La conférence de Berlin"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quelle appellation correspond à l'actuelle ville de Mbandaka pendant la période coloniale ?",
-options:[
-"Coquilhatville",
+s:"Culture générale",
+q:"Sous quel nom Kinshasa était-elle connue pendant la période coloniale ?",
+o:[
+"Léopoldville",
 "Stanleyville",
 "Élisabethville",
-"Costermansville"
+"Coquilhatville"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Bukavu était anciennement connue sous le nom de :",
-options:[
+s:"Culture générale",
+q:"Quelle ancienne appellation correspond à Kisangani ?",
+o:[
+"Stanleyville",
 "Costermansville",
+"Luluabourg",
+"Coquilhatville"
+],
+a:0
+},
+
+{
+s:"Culture générale",
+q:"Quelle ancienne appellation correspond à Mbandaka ?",
+o:[
 "Coquilhatville",
+"Élisabethville",
 "Léopoldville",
 "Stanleyville"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quelle ancienne appellation correspond à Kananga ?",
-options:[
+s:"Culture générale",
+q:"Quelle ancienne appellation correspond à Kananga ?",
+o:[
 "Luluabourg",
-"Élisabethville",
+"Costermansville",
 "Stanleyville",
-"Coquilhatville"
+"Élisabethville"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quelle province a pour chef-lieu la ville de Kolwezi ?",
-options:[
-"Lualaba",
-"Haut-Katanga",
-"Haut-Lomami",
-"Tanganyika"
+s:"Culture générale",
+q:"Quel est le chef-lieu du Haut-Lomami ?",
+o:[
+"Kamina",
+"Kabinda",
+"Kalemie",
+"Kolwezi"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quelle province a pour chef-lieu Kindu ?",
-options:[
-"Maniema",
-"Sud-Kivu",
-"Tanganyika",
-"Nord-Kivu"
+s:"Culture générale",
+q:"Quel est le chef-lieu de la Tshopo ?",
+o:[
+"Kisangani",
+"Isiro",
+"Bunia",
+"Kindu"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quelle province a pour chef-lieu Kalemie ?",
-options:[
-"Tanganyika",
-"Maniema",
-"Haut-Lomami",
-"Sud-Kivu"
+s:"Culture générale",
+q:"Quel est le chef-lieu du Sud-Kivu ?",
+o:[
+"Bukavu",
+"Goma",
+"Uvira",
+"Kindu"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"La RDC possède une façade maritime relativement courte sur :",
-options:[
-"L'océan Atlantique",
-"L'océan Indien",
-"la mer Méditerranée",
-"le golfe d'Aden"
+s:"Culture générale",
+q:"Quelle province a pour chef-lieu Tshikapa ?",
+o:[
+"Kasaï",
+"Kasaï-Central",
+"Kasaï-Oriental",
+"Lomami"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Le bassin hydrographique du fleuve Congo se caractérise principalement par :",
-options:[
-"Un réseau fluvial très dense",
-"Une absence presque totale de cours d'eau",
-"Un climat exclusivement désertique",
-"Des cours d'eau tous intermittents"
+s:"Culture générale",
+q:"Quel fleuve constitue l'axe hydrographique majeur de la RDC ?",
+o:[
+"Le Congo",
+"Le Nil",
+"Le Zambèze",
+"Le Limpopo"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quel lac est situé à la frontière orientale de la RDC et du Rwanda notamment ?",
-options:[
-"Lac Kivu",
-"Lac Tchad",
-"Lac Turkana",
-"Lac Volta"
-],
-answer:0
-},
-
-{
-subject:"Culture générale",
-question:"Le Nyiragongo appartient à la région volcanique située dans :",
-options:[
-"Le Nord-Kivu",
-"Le Kasaï",
-"Le Haut-Uélé",
-"Le Kongo-Central"
-],
-answer:0
-},
-
-{
-subject:"Culture générale",
-question:"Quel volcan est particulièrement connu pour son lac de lave et sa proximité avec Goma ?",
-options:[
-"Nyiragongo",
-"Etna",
-"Kilimandjaro",
-"Meru"
-],
-answer:0
-},
-
-{
-subject:"Culture générale",
-question:"La RDC partage sa frontière la plus occidentale avec :",
-options:[
-"La République du Congo",
-"L'Ouganda",
-"La Tanzanie",
-"La Zambie"
-],
-answer:0
-},
-
-{
-subject:"Culture générale",
-question:"Lequel de ces pays ne possède pas de frontière avec la RDC ?",
-options:[
-"Le Zimbabwe",
+s:"Culture générale",
+q:"Le lac Kivu est situé notamment entre la RDC et :",
+o:[
+"Le Rwanda",
+"La Zambie",
 "L'Angola",
-"Le Burundi",
-"La République centrafricaine"
+"Le Soudan du Sud"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quel pays possède une frontière avec la RDC à l'est et au nord-est ?",
-options:[
-"L'Ouganda",
-"Le Sénégal",
-"Le Ghana",
-"La Namibie"
+s:"Culture générale",
+q:"Le Nyiragongo se trouve dans quelle province ?",
+o:[
+"Nord-Kivu",
+"Sud-Kivu",
+"Ituri",
+"Haut-Uélé"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"La conférence de Berlin de 1884-1885 est particulièrement importante pour l'histoire du Congo parce qu'elle :",
-options:[
-"A organisé les règles de reconnaissance et de compétition coloniale en Afrique",
-"A proclamé l'indépendance du Congo",
-"A créé la République démocratique du Congo",
-"A mis fin à la Première Guerre mondiale"
+s:"Culture générale",
+q:"Le point culminant de la RDC se trouve dans le massif du :",
+o:[
+"Ruwenzori",
+"Virunga",
+"Kundelungu",
+"Mitumba"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quel territoire correspondait à l'État indépendant du Congo avant son annexion par la Belgique en 1908 ?",
-options:[
-"Un territoire placé sous la souveraineté personnelle de Léopold II",
-"Une colonie britannique",
-"Une république indépendante dirigée par Lumumba",
-"Une province française"
+s:"Culture générale",
+q:"Lequel de ces pays n'a pas de frontière terrestre avec la RDC ?",
+o:[
+"Zimbabwe",
+"Ouganda",
+"Zambie",
+"Burundi"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"En 1908, l'État indépendant du Congo devient :",
-options:[
+s:"Culture générale",
+q:"La conférence de Berlin sur l'Afrique s'est tenue principalement en :",
+o:[
+"1884-1885",
+"1878-1879",
+"1898-1899",
+"1908-1909"
+],
+a:0
+},
+
+{
+s:"Culture générale",
+q:"L'État indépendant du Congo était placé sous la souveraineté personnelle de :",
+o:[
+"Léopold II",
+"Léopold III",
+"Guillaume II",
+"Albert Ier"
+],
+a:0
+},
+
+{
+s:"Culture générale",
+q:"En 1908, l'État indépendant du Congo devient :",
+o:[
 "Le Congo belge",
 "Le Zaïre",
 "La République du Congo",
-"La République démocratique du Congo"
+"Le Congo français"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Le changement du nom Congo en Zaïre est intervenu sous le régime de :",
-options:[
-"Mobutu Sese Seko",
+s:"Culture générale",
+q:"Quel homme fut le premier Premier ministre du Congo indépendant ?",
+o:[
 "Patrice Lumumba",
 "Joseph Kasa-Vubu",
-"Laurent-Désiré Kabila"
+"Moïse Tshombe",
+"Cyrille Adoula"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quelle guerre a commencé en 1996 et a entraîné la chute du régime de Mobutu en 1997 ?",
-options:[
-"La Première guerre du Congo",
-"La guerre de Corée",
-"La guerre du Biafra",
-"La guerre d'Algérie"
+s:"Culture générale",
+q:"Quel changement politique est associé au 17 mai 1997 ?",
+o:[
+"La chute de Mobutu et l'arrivée de l'AFDL à Kinshasa",
+"L'indépendance",
+"La conférence de Berlin",
+"La création de la MONUSCO"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quel parc national de la RDC est inscrit au patrimoine mondial de l'UNESCO et est particulièrement connu pour sa biodiversité ?",
-options:[
-"Parc national de Virunga",
-"Parc national de Nairobi",
-"Parc national du Serengeti",
-"Parc national Kruger"
+s:"Culture générale",
+q:"Quel parc national congolais est particulièrement connu pour les gorilles de montagne ?",
+o:[
+"Virunga",
+"Salonga",
+"Garamba",
+"Upemba"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quel climat est particulièrement caractéristique de la région située autour de l'équateur en RDC ?",
-options:[
-"Climat équatorial humide",
-"Climat désertique froid",
-"Climat méditerranéen",
-"Climat polaire"
+s:"Culture générale",
+q:"Quel climat caractérise surtout la cuvette centrale congolaise ?",
+o:[
+"Équatorial humide",
+"Désertique",
+"Méditerranéen",
+"Polaire"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Pourquoi les régions de l'est de la RDC connaissent-elles davantage de reliefs élevés que la cuvette centrale ?",
-options:[
-"Elles appartiennent à une zone de hauts reliefs et de la branche occidentale du Rift est-africain",
-"Elles sont entièrement désertiques",
-"Elles sont situées au niveau de l'océan Atlantique",
-"Elles ne possèdent aucun volcan"
+s:"Culture générale",
+q:"Pourquoi la partie orientale de la RDC présente-t-elle de nombreux reliefs et volcans ?",
+o:[
+"Elle est liée à une zone de hauts reliefs et au Rift est-africain",
+"Elle est entièrement désertique",
+"Elle est située sur l'océan Atlantique",
+"Elle ne reçoit presque aucune pluie"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Culture générale",
-question:"Quel est le point culminant de la RDC ?",
-options:[
-"Le pic Margherita du mont Stanley",
-"Le Nyiragongo",
-"Le mont Karisimbi",
-"Le mont Cameroun"
+s:"Culture générale",
+q:"Lequel de ces événements est rapporté par la Présidence de la RDC le 2 octobre 2026 ?",
+o:[
+"Une rencontre entre Félix Tshisekedi et Jean-Noël Barrot au sujet notamment de la riposte contre Ebola",
+"L'indépendance de la RDC",
+"La création du Zaïre",
+"La dissolution de l'ONU"
 ],
-answer:0
-},
-
-/* ================= FRANÇAIS : TEXTE ================= */
-
-{
-subject:"Français",
-question:"Quelle thèse principale est défendue dans le texte ?",
-options:[
-"Une bonne préparation repose sur un apprentissage actif, régulier et critique.",
-"La réussite dépend principalement de la mémorisation rapide.",
-"Les examens évaluent uniquement la mémoire.",
-"Le travail scolaire doit être limité à la lecture."
-],
-answer:0,
-text:`Dans toute préparation sérieuse à une épreuve exigeante, la quantité de travail constitue un élément important, mais elle ne suffit pas à expliquer les différences de progression entre deux candidats. Deux élèves peuvent consacrer un nombre identique d'heures à leurs révisions et pourtant obtenir des résultats très différents. L'un peut passer plusieurs heures à relire ses notes tandis que l'autre consacre une partie de son temps à résoudre des problèmes, à répondre à des questions sans regarder son cours et à analyser systématiquement ses erreurs.
-
-Cette différence repose en partie sur la nature de l'effort fourni. La relecture donne souvent une impression de familiarité : une définition paraît évidente parce qu'elle a déjà été rencontrée plusieurs fois. Pourtant, lorsqu'il faut restituer cette définition sans support ou l'utiliser dans une situation nouvelle, la difficulté peut réapparaître. La récupération active des connaissances permet précisément de mesurer ce que l'on sait réellement.
-
-La correction joue également un rôle déterminant. Une erreur ne constitue pas seulement une perte de points ; elle peut révéler une lacune précise. Un candidat peut avoir confondu deux notions, mal interprété une consigne, appliqué une règle dans un contexte où elle ne convient pas ou répondu trop rapidement. Ces causes ne se corrigent pas de la même manière. Il est donc plus utile d'identifier la nature de l'erreur que de se contenter de mémoriser la réponse correcte.
-
-La difficulté augmente encore lorsque les questions deviennent proches les unes des autres. Dans un examen sélectif, plusieurs propositions peuvent sembler plausibles. La différence entre elles repose parfois sur un seul mot, une condition, un temps verbal ou une relation logique. La lecture attentive de la consigne devient alors une compétence à part entière. Répondre vite peut être utile lorsque le temps est limité, mais la vitesse ne doit pas remplacer la précision.
-
-La régularité constitue enfin un facteur essentiel. Une séance exceptionnelle de plusieurs heures peut être impressionnante, mais elle ne garantit pas une mémorisation durable. Des séances répétées permettent de réactiver progressivement les connaissances et de revenir sur les notions qui résistent. L'objectif n'est donc pas de travailler constamment, mais d'organiser le travail de manière à rendre chaque séance réellement productive.
-
-Cette méthode exige une certaine honnêteté intellectuelle. Il faut accepter de constater qu'une notion que l'on croyait maîtriser ne l'est pas encore. Il faut également résister à la tentation de sélectionner uniquement les exercices faciles. Les difficultés signalent souvent les domaines dans lesquels l'amélioration peut être la plus importante.
-
-Ainsi, une préparation efficace associe plusieurs éléments : compréhension, récupération active, entraînement, correction, répétition et gestion du temps. Aucun de ces éléments ne remplace complètement les autres. C'est leur combinaison qui transforme progressivement une connaissance fragile en compétence utilisable dans une situation nouvelle.`
+a:0
 },
 
 {
-subject:"Français",
-question:"Pourquoi la relecture peut-elle donner une fausse impression de maîtrise ?",
-options:[
-"Parce qu'elle rend les textes plus difficiles à comprendre.",
-"Parce que la familiarité avec une information ne garantit pas sa restitution autonome.",
-"Parce qu'elle empêche toute mémorisation.",
-"Parce qu'elle est toujours moins efficace que l'écoute."
+s:"Culture générale",
+q:"Selon la Présidence de la RDC, quel événement s'est tenu le 24 septembre 2026 ?",
+o:[
+"Les Léopards ont battu la Guinée équatoriale 2-0 dans les éliminatoires de la CAN 2027",
+"La RDC a quitté la SADC",
+"Le Congo belge a été créé",
+"Une nouvelle province a été créée"
 ],
-answer:1,
-text:""
+a:0
 },
 
 {
-subject:"Français",
-question:"Selon le texte, que peut révéler une erreur ?",
-options:[
-"Uniquement un manque d'intelligence.",
-"Une lacune, une mauvaise interprétation, une confusion ou une précipitation.",
-"Que la question était nécessairement incorrecte.",
-"Que le candidat doit abandonner la matière."
+s:"Culture générale",
+q:"Quel événement historique mondial a commencé en 1914 ?",
+o:[
+"La Première Guerre mondiale",
+"La Seconde Guerre mondiale",
+"La guerre froide",
+"La Révolution française"
 ],
-answer:1,
-text:""
+a:0
+},
+
+
+/* =========================================================
+   FRANÇAIS — 25
+========================================================= */
+
+{
+s:"Français",
+q:"Quelle est l'idée principale du texte proposé ?",
+o:[
+"Une préparation efficace combine compréhension, entraînement, correction et répétition",
+"La mémorisation mécanique suffit à réussir",
+"Il faut éviter les questions difficiles",
+"Le temps de travail est le seul facteur de réussite"
+],
+a:0,
+r:FRENCH_TEXT
 },
 
 {
-subject:"Français",
-question:"Pourquoi la lecture de la consigne devient-elle particulièrement importante dans un examen sélectif ?",
-options:[
-"Parce que toutes les propositions sont identiques.",
-"Parce que plusieurs réponses peuvent sembler plausibles et différer sur un détail précis.",
-"Parce qu'il n'existe aucune limite de temps.",
-"Parce qu'il faut toujours choisir la réponse la plus longue."
+s:"Français",
+q:"D'après le texte, pourquoi la relecture seule peut-elle être trompeuse ?",
+o:[
+"Elle peut créer une familiarité sans garantir la restitution autonome",
+"Elle empêche toujours la mémorisation",
+"Elle est interdite dans les révisions",
+"Elle oblige à travailler trop vite"
 ],
-answer:1,
-text:""
+a:0,
+r:FRENCH_TEXT
 },
 
 {
-subject:"Français",
-question:"Quelle méthode de travail est privilégiée par le texte ?",
-options:[
-"Une longue séance unique avant l'examen.",
-"Une lecture passive répétée.",
-"Des séances régulières combinant compréhension, entraînement et correction.",
-"Le choix exclusif des exercices faciles."
+s:"Français",
+q:"Dans le texte, l'erreur est principalement présentée comme :",
+o:[
+"Une information permettant d'identifier une difficulté",
+"Une preuve définitive d'échec",
+"Une raison d'abandonner",
+"Une conséquence sans intérêt"
 ],
-answer:2,
-text:""
-},
-
-/* ================= FRANÇAIS GRAMMAIRE ================= */
-
-{
-subject:"Français",
-question:"Dans « Les résultats que nous avons obtenus sont encourageants », pourquoi « obtenus » prend-il le pluriel ?",
-options:[
-"Parce que le sujet est « nous ».",
-"Parce que le COD « que », placé avant l'auxiliaire avoir, représente « les résultats ».",
-"Parce que le verbe est toujours accordé avec l'auxiliaire.",
-"Parce que « encourageants » impose l'accord."
-],
-answer:1
+a:0,
+r:FRENCH_TEXT
 },
 
 {
-subject:"Français",
-question:"Dans « En travaillant régulièrement, il progresse », « en travaillant » est :",
-options:[
+s:"Français",
+q:"Quel comportement est recommandé face à une question difficile ?",
+o:[
+"Identifier précisément la consigne et proportionner son temps à la difficulté",
+"Choisir immédiatement la réponse la plus longue",
+"Éviter la question",
+"Répondre sans lire les propositions"
+],
+a:0,
+r:FRENCH_TEXT
+},
+
+{
+s:"Français",
+q:"Quelle conclusion correspond au dernier paragraphe ?",
+o:[
+"Une préparation efficace développe aussi une capacité générale à apprendre et à raisonner",
+"Seuls les examens sont importants",
+"La répétition doit remplacer la compréhension",
+"Les erreurs doivent être oubliées"
+],
+a:0,
+r:FRENCH_TEXT
+},
+
+{
+s:"Français",
+q:"Dans « Les lettres que j'ai écrites », pourquoi « écrites » prend-il le féminin pluriel ?",
+o:[
+"Le COD « que », placé avant avoir, représente « les lettres »",
+"Le sujet est toujours placé avant le participe",
+"Le verbe écrire s'accorde toujours avec avoir",
+"Parce que « lettres » est un nom abstrait"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Dans « En travaillant régulièrement, elle progresse », « en travaillant » est :",
+o:[
 "Un gérondif",
-"Un participe passé",
 "Un infinitif passé",
-"Un adjectif verbal"
+"Un participe passé",
+"Un adverbe"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « Les décisions prises hier seront appliquées demain », « prises » est :",
-options:[
-"Un participe passé employé comme adjectif",
+s:"Français",
+q:"Dans « Les décisions prises hier seront appliquées », « prises » est :",
+o:[
+"Un participe passé",
+"Un participe présent",
 "Un infinitif",
-"Un adverbe",
-"Un participe présent"
+"Un adverbe"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « Je souhaite que tu réussisses », « que tu réussisses » est :",
-options:[
-"Une proposition subordonnée conjonctive complétive",
-"Une proposition subordonnée relative",
-"Une proposition principale",
-"Une proposition infinitive"
+s:"Français",
+q:"Dans « Je souhaite que tu réussisses », la proposition introduite par « que » est :",
+o:[
+"Une subordonnée conjonctive complétive",
+"Une relative",
+"Une principale",
+"Une infinitive"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « L'élève dont je parle est absent », « dont » est :",
-options:[
+s:"Français",
+q:"Dans « L'élève dont je parle est absent », « dont » est :",
+o:[
 "Un pronom relatif",
-"Un déterminant possessif",
+"Un déterminant",
 "Un adverbe",
 "Une conjonction"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « Il travaille extrêmement bien », « extrêmement » est :",
-options:[
-"Un adjectif",
+s:"Français",
+q:"Dans « Il répond très rapidement », « très » est :",
+o:[
 "Un adverbe",
+"Un adjectif qualificatif",
 "Un déterminant",
 "Un pronom"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « Plusieurs candidats ont répondu », « plusieurs » est :",
-options:[
+s:"Français",
+q:"Dans « Plusieurs candidats ont réussi », « plusieurs » est :",
+o:[
 "Un déterminant indéfini",
-"Un adverbe",
 "Un pronom personnel",
-"Un adjectif qualificatif"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"Dans « Cette réponse est correcte », « cette » est :",
-options:[
-"Un déterminant démonstratif",
-"Un pronom démonstratif",
 "Un adverbe",
 "Un article défini"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Quel temps est utilisé dans « Il aurait réussi s'il avait davantage travaillé » ?",
-options:[
-"Conditionnel passé",
-"Futur antérieur",
-"Plus-que-parfait",
-"Passé antérieur"
+s:"Français",
+q:"Dans « Cette réponse est correcte », « cette » est :",
+o:[
+"Un déterminant démonstratif",
+"Un pronom démonstratif",
+"Un adjectif qualificatif",
+"Un adverbe"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « Lorsqu'il eut terminé, il sortit », « eut terminé » est au :",
-options:[
-"Passé antérieur",
-"Plus-que-parfait",
-"Passé composé",
-"Conditionnel passé"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"Dans « Je partirai dès que tu seras prêt », « seras » est au :",
-options:[
-"Futur simple",
-"Présent du subjonctif",
-"Conditionnel présent",
-"Imparfait"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"Quelle phrase contient correctement le subjonctif ?",
-options:[
-"Il faut que tu viens.",
-"Il faut que tu viennes.",
-"Il faut que tu viendras.",
-"Il faut que tu venir."
-],
-answer:1
-},
-
-{
-subject:"Français",
-question:"Quel est le féminin correct de « héros » ?",
-options:[
-"Héroïne",
-"Hérose",
-"Hérote",
-"Hérosse"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"Quelle figure de style consiste à exagérer volontairement une réalité ?",
-options:[
-"Hyperbole",
-"Litote",
-"Ellipse",
-"Antithèse"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"« Il n'est pas mauvais » pour signifier « il est assez bon » constitue notamment :",
-options:[
-"Une litote",
-"Une hyperbole",
-"Un oxymore",
-"Une comparaison"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"Quelle transformation correspond au discours indirect ? « Marie dit : “Je viendrai demain.” »",
-options:[
-"Marie dit qu'elle viendra demain.",
-"Marie dit qu'elle viendrait le lendemain.",
-"Marie dit : qu'elle viendra demain.",
-"Marie disait qu'elle vient demain."
-],
-answer:1
-},
-
-{
-subject:"Français",
-question:"Dans « Le livre que tu lis appartient à Paul », la fonction de « que » est :",
-options:[
-"COD du verbe « lis »",
-"COI du verbe « lis »",
-"Sujet du verbe « lis »",
-"Attribut"
-],
-answer:0
-},
-
-{
-subject:"Français",
-question:"Dans « Paul semble fatigué », « fatigué » est :",
-options:[
+s:"Français",
+q:"Dans « Paul semble fatigué », « fatigué » est :",
+o:[
 "Attribut du sujet",
 "COD",
 "COI",
 "Complément circonstanciel"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Quel est le superlatif relatif correct ?",
-options:[
-"Le plus intéressant",
-"Plus très intéressant",
-"Le très intéressant",
-"Le plus intéressant que"
+s:"Français",
+q:"Dans « Le livre que tu lis est intéressant », la fonction de « que » est :",
+o:[
+"COD du verbe « lis »",
+"Sujet de « lis »",
+"COI de « lis »",
+"Attribut"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Français",
-question:"Dans « Bien qu'il soit tard, nous continuons », la subordonnée exprime :",
-options:[
+s:"Français",
+q:"« Cette obscure clarté » contient :",
+o:[
+"Un oxymore",
+"Une hyperbole",
+"Une comparaison",
+"Une litote"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"« Je l'ai vu de mes propres yeux » contient principalement :",
+o:[
+"Un pléonasme",
+"Une antithèse",
+"Une gradation",
+"Une métaphore"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Quel temps apparaît dans « Lorsque j'eus terminé, je sortis » ?",
+o:[
+"Passé antérieur",
+"Plus-que-parfait",
+"Passé composé",
+"Futur antérieur"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Dans « Il faut que tu viennes », « viennes » est au :",
+o:[
+"Subjonctif présent",
+"Indicatif présent",
+"Conditionnel présent",
+"Impératif"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Quel est le féminin correct de « héros » ?",
+o:[
+"Héroïne",
+"Hérote",
+"Hérose",
+"Hérossesse"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Quel est le féminin correct de « directeur » ?",
+o:[
+"Directrice",
+"Directeuse",
+"Directeure",
+"Directriceuse"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"« Il n'est pas mauvais » pour signifier « il est assez bon » constitue :",
+o:[
+"Une litote",
+"Une hyperbole",
+"Un oxymore",
+"Une personnification"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"La voix passive de « Le professeur corrige les copies » est :",
+o:[
+"Les copies sont corrigées par le professeur",
+"Les copies corrigent le professeur",
+"Les copies sont corriger du professeur",
+"Le professeur est corrigé par les copies"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Le discours indirect de « Paul dit : “Je viendrai demain.” » est :",
+o:[
+"Paul dit qu'il viendra demain",
+"Paul dit qu'il viendrait le lendemain",
+"Paul dit qu'il vient hier",
+"Paul dit : qu'il viendra"
+],
+a:0
+},
+
+{
+s:"Français",
+q:"Dans « Bien qu'il soit tard, il continue », la subordonnée exprime :",
+o:[
 "La concession",
 "La cause",
 "Le but",
 "La conséquence"
 ],
-answer:0
+a:0
 },
 
-/* ================= ENGLISH TEXT ================= */
+
+/* =========================================================
+   ENGLISH — 25
+========================================================= */
 
 {
-subject:"English",
-question:"What is the main idea of the passage?",
-options:[
-"Successful learning depends entirely on natural intelligence.",
-"Effective learning requires active practice, regularity and analysis of mistakes.",
-"Grammar should never be studied.",
-"Students should only study immediately before an exam."
+s:"English",
+q:"What is the main idea of the text?",
+o:[
+"Effective learning combines active recall, regular practice and correction",
+"Learning depends only on intelligence",
+"Grammar should never be studied",
+"Long study sessions always guarantee success"
 ],
-answer:1,
-text:`Learning a foreign language requires more than knowing a collection of grammatical rules. Grammar provides a framework, but learners must also develop the ability to recognize structures, produce sentences and understand meaning in different situations. This ability usually develops gradually rather than appearing immediately after a rule has been studied.
-
-One reason progress can seem slow is that understanding and automatic use are different. A student may correctly explain the difference between the present perfect and the past simple but still hesitate when choosing between them in a conversation. This does not necessarily mean that the rule has been forgotten. It may simply mean that the learner has not yet practised it enough in meaningful contexts.
-
-Active practice can help reduce this gap. Instead of reading a list of examples repeatedly, learners can attempt to create their own sentences, answer questions without looking at the solution and then compare their answers with a reliable correction. The effort required to retrieve information is useful because it shows whether the learner can actually produce the language independently.
-
-Mistakes are another important part of the process. A learner who notices a repeated error can investigate its cause. Perhaps the problem is an incorrect verb form; perhaps a preposition has been confused with another one; perhaps the learner has transferred a structure from the first language. Once the cause is identified, practice can become more focused.
-
-Regular exposure is also valuable. Ten or twenty minutes of concentrated practice on a regular basis may be easier to maintain than a very long session followed by several days without contact with the language. Regular practice provides repeated opportunities to meet familiar words and structures in new contexts.
-
-Finally, effective learners do not expect perfection at every stage. They understand that competence develops through cycles of learning, attempting, making mistakes, correcting and trying again. Progress is therefore not always visible from one day to the next, but consistent practice gradually changes what feels difficult into something more automatic.`
+a:0,
+r:ENGLISH_TEXT
 },
 
 {
-subject:"English",
-question:"Why may a learner hesitate even after understanding a grammar rule?",
-options:[
-"Because understanding a rule and using it automatically are different stages.",
-"Because grammar rules cannot be learned.",
-"Because vocabulary has no role.",
-"Because hesitation always means the rule was forgotten."
+s:"English",
+q:"According to the text, why can familiarity be misleading?",
+o:[
+"Recognizing information does not always mean being able to recall it independently",
+"Familiar information is always wrong",
+"Reading prevents learning",
+"Familiarity makes grammar impossible"
 ],
-answer:0,
-text:""
+a:0,
+r:ENGLISH_TEXT
 },
 
 {
-subject:"English",
-question:"What does active practice involve according to the passage?",
-options:[
-"Only reading examples.",
-"Trying to produce language independently and checking the result.",
-"Memorizing translations without context.",
-"Avoiding difficult questions."
+s:"English",
+q:"What does active recall require?",
+o:[
+"Trying to produce information before checking the answer",
+"Reading the same page repeatedly",
+"Avoiding difficult exercises",
+"Memorizing without using context"
 ],
-answer:1,
-text:""
+a:0,
+r:ENGLISH_TEXT
 },
 
 {
-subject:"English",
-question:"What can repeated mistakes reveal?",
-options:[
-"They can reveal a specific underlying difficulty.",
-"They prove that learning is impossible.",
-"They show that every grammar rule is wrong.",
-"They have no relationship with learning."
+s:"English",
+q:"Why should mistakes be examined carefully?",
+o:[
+"Different causes require different solutions",
+"All mistakes have the same cause",
+"Mistakes should be ignored",
+"Every mistake proves lack of ability"
 ],
-answer:0,
-text:""
+a:0,
+r:ENGLISH_TEXT
 },
 
 {
-subject:"English",
-question:"What does the passage say about regular practice?",
-options:[
-"It can be easier to maintain than occasional very long sessions.",
-"It is less useful than studying once a month.",
-"It prevents learners from making mistakes.",
-"It guarantees immediate fluency."
+s:"English",
+q:"What does the text say about regular practice?",
+o:[
+"Short, concentrated sessions can be easier to maintain than occasional intensive sessions",
+"It is useless",
+"It prevents all mistakes",
+"It guarantees immediate fluency"
 ],
-answer:0,
-text:""
+a:0,
+r:ENGLISH_TEXT
 },
 
-/* ================= ENGLISH GRAMMAR ================= */
-
 {
-subject:"English",
-question:"My brother usually ___ football on Sundays.",
-options:[
-"plays",
-"is playing",
-"played",
-"has played"
+s:"English",
+q:"She usually ___ to school by bus.",
+o:[
+"goes",
+"is going",
+"went",
+"has gone"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"Be quiet! The baby ___.",
-options:[
-"sleeps",
-"slept",
-"is sleeping",
-"has slept"
+s:"English",
+q:"Look! The students ___.",
+o:[
+"work",
+"worked",
+"are working",
+"have worked"
 ],
-answer:2
+a:2
 },
 
 {
-subject:"English",
-question:"When I arrived, they ___ dinner.",
-options:[
-"have",
+s:"English",
+q:"When I arrived, they ___ dinner.",
+o:[
 "were having",
-"had",
-"are having"
+"have",
+"are having",
+"had been have"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"She ___ this book three times.",
-options:[
-"read",
-"has read",
-"is reading",
-"reads yesterday"
+s:"English",
+q:"I ___ this book twice.",
+o:[
+"have read",
+"read yesterday",
+"am reading twice",
+"have reading"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"I ___ you tomorrow.",
-options:[
-"called",
-"call yesterday",
-"will call",
-"have called tomorrow"
+s:"English",
+q:"By next week, she ___ the project.",
+o:[
+"will have finished",
+"finishes yesterday",
+"has finish",
+"would finishing"
 ],
-answer:2
+a:0
 },
 
 {
-subject:"English",
-question:"You ___ wear a seat belt in a car.",
-options:[
+s:"English",
+q:"You ___ obey the examination instructions.",
+o:[
 "must",
 "must to",
 "should to",
 "can to"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"If water reaches 100°C, it ___.",
-options:[
+s:"English",
+q:"If water reaches 100°C, it ___.",
+o:[
 "boils",
 "would boil",
-"will have boiled",
-"boiled"
+"boiled",
+"will have boiled"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"If I were you, I ___ more carefully.",
-options:[
-"would study",
-"will study",
-"studied",
-"would have studied"
+s:"English",
+q:"If I had more time, I ___ another language.",
+o:[
+"would learn",
+"will learn",
+"learned yesterday",
+"would have learned yesterday"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"If she had left earlier, she ___ the bus.",
-options:[
-"would catch",
-"will catch",
-"would have caught",
-"caught"
+s:"English",
+q:"If she had studied harder, she ___ the test.",
+o:[
+"would have passed",
+"will pass",
+"would pass tomorrow",
+"passed now"
 ],
-answer:2
+a:0
 },
 
 {
-subject:"English",
-question:"This exercise is ___ than the previous one.",
-options:[
-"difficult",
+s:"English",
+q:"This exercise is ___ than the previous one.",
+o:[
 "more difficult",
 "most difficult",
-"the difficultest"
+"difficultest",
+"more difficulty"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"Mount Everest is ___ mountain above sea level.",
-options:[
-"higher",
+s:"English",
+q:"Mount Everest is ___ mountain above sea level.",
+o:[
 "the highest",
-"highest than",
-"the most high"
+"higher than the",
+"the most high",
+"highest than"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"He bought ___ umbrella because it was raining.",
-options:[
-"a",
+s:"English",
+q:"He bought ___ umbrella because it was raining.",
+o:[
 "an",
-"the a",
-"some"
+"a",
+"some",
+"many"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"There isn't ___ milk left.",
-options:[
-"many",
+s:"English",
+q:"There isn't ___ water left.",
+o:[
 "much",
+"many",
 "a few",
 "several"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"___ did you meet yesterday?",
-options:[
+s:"English",
+q:"___ did you meet yesterday?",
+o:[
 "Who",
 "Where",
-"When",
-"How"
+"How many",
+"Which time"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"___ have you lived here?",
-options:[
+s:"English",
+q:"___ have you lived here?",
+o:[
 "How long",
 "How many",
 "How much",
 "How often"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"Which sentence is correct?",
-options:[
+s:"English",
+q:"Which sentence is correct?",
+o:[
 "She has lived here since 2021.",
 "She lives here since 2021.",
-"She is living here since 2021.",
-"She lived here since five years."
+"She is live here since 2021.",
+"She has lived here for 2021."
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"Which sentence is correct?",
-options:[
-"Neither John nor his friends is ready.",
+s:"English",
+q:"Which sentence is correct?",
+o:[
 "Neither John nor his friends are ready.",
 "Neither John or his friends are ready.",
+"Neither John nor his friends is being ready.",
 "Neither John nor his friends be ready."
 ],
-answer:1
+a:0
 },
 
 {
-subject:"English",
-question:"Which sentence is correct?",
-options:[
+s:"English",
+q:"Which sentence is correct?",
+o:[
 "Hardly had I arrived when it started raining.",
 "Hardly I had arrived when it started raining.",
 "Hardly had I arrive when it started raining.",
-"Hardly I arrived when it had started raining."
+"Hardly I arrived when it had start raining."
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"Which word means « perspicace »?",
-options:[
+s:"English",
+q:"Which word means « perspicace »?",
+o:[
 "Perspicacious",
 "Transient",
 "Ephemeral",
 "Reluctant"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"English",
-question:"If something is « ephemeral », it is :",
-options:[
-"Permanent",
+s:"English",
+q:"If something is « ephemeral », it is :",
+o:[
 "Short-lived",
-"Extremely expensive",
-"Impossible to understand"
+"Permanent",
+"Very heavy",
+"Impossible to explain"
 ],
-answer:1
+a:0
 },
 
-{
-subject:"English",
-question:"Which sentence correctly uses a comparative?",
-options:[
-"This book is more useful than that one.",
-"This book is more useful that that one.",
-"This book is useful than that one.",
-"This book more useful than that one."
-],
-answer:0
-},
+
+/* =========================================================
+   MATHS — 25
+========================================================= */
 
 {
-subject:"English",
-question:"Choose the correct question.",
-options:[
-"Why did she leave?",
-"Why she did leave?",
-"Why did she left?",
-"Why she leave?"
-],
-answer:0
-},
-
-/* ================= MATHS ================= */
-
-{
-subject:"Maths",
-question:"Soit f(x)=(2x+1)/(x−3). Quel est Df ?",
-options:[
-"R",
+s:"Maths",
+q:"Soit f(x)=1/(x−3). Quel est son domaine de définition ?",
+o:[
 "R\\{3}",
+"R",
 "R\\{−3}",
 "]3,+∞["
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Si f(x)=2x−1 et g(x)=x²+3, alors (g∘f)(x) vaut :",
-options:[
-"2x²+2",
+s:"Maths",
+q:"Soit f(x)=2x−1 et g(x)=x²+3. Alors (g∘f)(x) vaut :",
+o:[
 "(2x−1)²+3",
-"2x²−1",
-"x²+2"
+"2x²+2",
+"x²+2",
+"2x−1+3"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Soit f(x)=x²−4x+1. La fonction f est :",
-options:[
-"Impaire",
-"Paire",
-"Ni paire ni impaire",
-"Périodique de période 2"
+s:"Maths",
+q:"Une fonction f est paire lorsque :",
+o:[
+"f(−x)=f(x)",
+"f(−x)=−f(x)",
+"f(x)=x",
+"f(−x)=1/f(x)"
 ],
-answer:2
+a:0
 },
 
 {
-subject:"Maths",
-question:"La fonction f(x)=x³−x est :",
-options:[
-"Paire",
+s:"Maths",
+q:"La fonction f(x)=x³−2x est :",
+o:[
 "Impaire",
+"Paire",
 "Constante",
 "Périodique"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Si f est paire, sa courbe possède une symétrie par rapport :",
-options:[
+s:"Maths",
+q:"La courbe d'une fonction paire est symétrique par rapport :",
+o:[
 "à l'axe des ordonnées",
 "à l'axe des abscisses",
 "à l'origine",
 "à la droite y=x"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Maths",
-question:"Si f est impaire, sa courbe possède une symétrie centrale de centre :",
-options:[
-"(1,1)",
-"(0,0)",
-"(0,1)",
-"(1,0)"
+s:"Maths",
+q:"La courbe d'une fonction impaire possède une symétrie centrale de centre :",
+o:[
+"O(0,0)",
+"O(1,0)",
+"O(0,1)",
+"O(1,1)"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"La fonction sin(x) est périodique de période :",
-options:[
-"π",
+s:"Maths",
+q:"La fonction sin(x) a pour période fondamentale :",
+o:[
 "2π",
+"π",
 "1",
 "π/2"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"La fonction cos(x) est :",
-options:[
-"Impaire et de période π",
+s:"Maths",
+q:"La fonction cos(x) est :",
+o:[
 "Paire et de période 2π",
-"Ni paire ni périodique",
-"Impaire et de période 2π"
+"Impaire et de période 2π",
+"Paire et de période π/2",
+"Ni paire ni périodique"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"lim (x²−9)/(x−3), lorsque x tend vers 3, vaut :",
-options:[
-"0",
-"3",
+s:"Maths",
+q:"lim (x²−9)/(x−3), lorsque x→3, vaut :",
+o:[
 "6",
+"3",
+"0",
 "+∞"
 ],
-answer:2
+a:0
 },
 
 {
-subject:"Maths",
-question:"lim (3x²+1)/(x²−2), lorsque x tend vers +∞, vaut :",
-options:[
+s:"Maths",
+q:"lim (3x²+1)/(x²−2), lorsque x→+∞, vaut :",
+o:[
+"3",
 "0",
 "1",
-"2",
-"3"
+"+∞"
 ],
-answer:3
+a:0
 },
 
 {
-subject:"Maths",
-question:"Pour f(x)=1/(x−2), la droite x=2 est :",
-options:[
-"Une asymptote horizontale",
+s:"Maths",
+q:"Pour f(x)=1/(x−2), la droite x=2 est :",
+o:[
 "Une asymptote verticale",
+"Une asymptote horizontale",
 "Une asymptote oblique",
-"Un axe de symétrie uniquement"
+"Un axe de symétrie"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Pour f(x)=(2x+1)/(x−1), l'asymptote horizontale est :",
-options:[
-"y=1",
+s:"Maths",
+q:"Pour f(x)=(2x+1)/(x−1), l'asymptote horizontale est :",
+o:[
 "y=2",
+"y=1",
 "x=1",
 "y=−1"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Le domaine de définition de ln(3x−6) est :",
-options:[
-"x≥2",
-"x>2",
-"x<2",
-"R"
+s:"Maths",
+q:"Le domaine de définition de ln(3x−6) est :",
+o:[
+"]2,+∞[",
+"[2,+∞[",
+"R",
+"]−∞,2["
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"La dérivée de f(x)=ln(x²+1) est :",
-options:[
-"1/(x²+1)",
+s:"Maths",
+q:"La dérivée de f(x)=ln(x²+1) est :",
+o:[
 "2x/(x²+1)",
-"ln(2x)",
+"1/(x²+1)",
+"2x ln(x)",
 "x²+1"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"La dérivée de f(x)=(3x+1)^4 est :",
-options:[
-"4(3x+1)^3",
+s:"Maths",
+q:"La dérivée de f(x)=(3x+1)^4 est :",
+o:[
 "12(3x+1)^3",
+"4(3x+1)^3",
 "3(3x+1)^4",
 "12(3x+1)^4"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"La dérivée de f(x)=x²ln(x), pour x>0, est :",
-options:[
+s:"Maths",
+q:"La dérivée de f(x)=x²ln(x), pour x>0, est :",
+o:[
 "2xln(x)+x",
 "xln(x)+2",
 "2ln(x)+x",
-"x²/x"
+"x²ln(x)"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Maths",
-question:"La fonction f(x)=e^(2x) a pour dérivée :",
-options:[
-"e^(2x)",
+s:"Maths",
+q:"La dérivée de e^(2x) est :",
+o:[
 "2e^(2x)",
+"e^(2x)",
 "2xe^(2x)",
 "e^x"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Pour f(x)=x²−6x+5, l'abscisse du sommet de la parabole est :",
-options:[
-"−3",
+s:"Maths",
+q:"Pour f(x)=x²−6x+5, l'abscisse du sommet est :",
+o:[
 "3",
+"−3",
 "5",
 "6"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"La négation de « Il existe au moins un x tel que P(x) » est :",
-options:[
-"Pour tout x, P(x)",
+s:"Maths",
+q:"La négation de « Tous les élèves ont réussi » est :",
+o:[
+"Au moins un élève n'a pas réussi",
+"Aucun élève n'a réussi",
+"Tous les élèves ont échoué",
+"Un seul élève a réussi"
+],
+a:0
+},
+
+{
+s:"Maths",
+q:"La négation de « Il existe x tel que P(x) » est :",
+o:[
 "Pour tout x, non-P(x)",
-"Il existe un x tel que non-P(x)",
+"Pour tout x, P(x)",
+"Il existe x tel que non-P(x)",
 "P(x) et non-P(x)"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Si P ⇒ Q et Q ⇒ P, alors :",
-options:[
+s:"Maths",
+q:"Si P⇒Q et Q⇒P, alors :",
+o:[
 "P et Q sont équivalentes",
-"P est nécessairement faux",
-"Q est nécessairement faux",
+"P est faux",
+"Q est faux",
 "P implique non-Q"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Maths",
-question:"La contraposée de « Si x>2 alors x²>4 » est :",
-options:[
-"Si x²≤4 alors x≤2",
-"Si x²>4 alors x>2",
-"Si x≤2 alors x²≤4",
-"Si x²=4 alors x=2"
+s:"Maths",
+q:"La contraposée de « Si P alors Q » est :",
+o:[
+"Si non-Q alors non-P",
+"Si Q alors P",
+"Si non-P alors non-Q",
+"P et non-Q"
 ],
-answer:0
+a:0
 },
 
 {
-subject:"Maths",
-question:"Si f(x)=x² sur R, f est-elle injective ?",
-options:[
-"Oui, car x² augmente toujours",
+s:"Maths",
+q:"L'implication P⇒Q est fausse lorsque :",
+o:[
+"P est vraie et Q est fausse",
+"P est fausse et Q est vraie",
+"P et Q sont vraies",
+"P et Q sont fausses"
+],
+a:0
+},
+
+{
+s:"Maths",
+q:"La fonction f(x)=x² sur R est-elle injective ?",
+o:[
 "Non, car f(−x)=f(x)",
-"Oui, car son domaine est R",
-"Non, parce qu'elle est périodique"
+"Oui, car elle est définie sur R",
+"Oui, car x² est positif",
+"Non, car elle est périodique"
 ],
-answer:1
+a:0
 },
 
 {
-subject:"Maths",
-question:"Pour f(x)=x³, l'application de R vers R est :",
-options:[
-"Injective mais non surjective",
-"Surjective mais non injective",
+s:"Maths",
+q:"L'application f:R→R définie par f(x)=x³ est :",
+o:[
 "Bijective",
+"Injective seulement",
+"Surjective seulement",
 "Ni injective ni surjective"
 ],
-answer:2
-},
-
-{
-subject:"Maths",
-question:"Si lim f(x)=+∞ lorsque x→2− et lim f(x)=−∞ lorsque x→2+, alors :",
-options:[
-"x=2 est une asymptote verticale",
-"y=2 est une asymptote horizontale",
-"x=2 est une asymptote oblique",
-"f est nécessairement paire"
-],
-answer:0
-},
-
-{
-subject:"Maths",
-question:"Pour f(x)=x+1/x, l'expression est définie sur :",
-options:[
-"R",
-"R\\{0}",
-"]0,+∞[",
-"R\\{1}"
-],
-answer:1
+a:0
 }
 
 ];
 
 
 /* =========================================================
-   VERIFICATION AUTOMATIQUE
+   VERIFICATION AVANT DEMARRAGE
 ========================================================= */
 
-if(QUESTIONS.length !== 100){
-    alert("Erreur : le test doit contenir exactement 100 questions.");
-    throw new Error("QUESTIONS != 100");
+if(Q.length !== 100){
+    alert(
+        "ERREUR : le test contient "
+        + Q.length
+        + " questions au lieu de 100."
+    );
+
+    throw new Error("Nombre de questions incorrect.");
 }
 
-for(let q of QUESTIONS){
+const counts={
+    "Culture générale":0,
+    "Français":0,
+    "English":0,
+    "Maths":0
+};
+
+Q.forEach(q=>{
+
+    counts[q.s]++;
+
     if(
-        !q.question ||
-        !Array.isArray(q.options) ||
-        q.options.length !== 4 ||
-        q.answer < 0 ||
-        q.answer > 3
+        !q.q ||
+        !Array.isArray(q.o) ||
+        q.o.length!==4 ||
+        q.a<0 ||
+        q.a>3
     ){
         throw new Error("Question mal configurée.");
     }
+
+});
+
+if(
+    counts["Culture générale"]!==25 ||
+    counts["Français"]!==25 ||
+    counts["English"]!==25 ||
+    counts["Maths"]!==25
+){
+    throw new Error(
+        "Chaque matière doit contenir exactement 25 questions."
+    );
 }
 
 
@@ -1593,18 +1701,19 @@ for(let q of QUESTIONS){
    VARIABLES
 ========================================================= */
 
-let questions = [];
-let current = 0;
-let answers = [];
-let candidate = "";
+let order=[];
+let answers=[];
+let current=0;
 
-let interval = null;
-let remaining = 60;
+let timer=null;
+let readingTimer=null;
 
-let readingInterval = null;
-let readingRemaining = 900;
+let remaining=60;
+let readRemaining=900;
 
-let readingDone = {
+let name="";
+
+let readDone={
     Français:false,
     English:false
 };
@@ -1614,22 +1723,45 @@ let readingDone = {
    OUTILS
 ========================================================= */
 
-function $(id){
-    return document.getElementById(id);
-}
+const $=id=>document.getElementById(id);
+
 
 function show(id){
-    ["home","reading","quiz","results"].forEach(x=>{
+
+    [
+        "home",
+        "reading",
+        "quiz",
+        "results"
+    ].forEach(x=>{
         $(x).classList.add("hidden");
     });
+
     $(id).classList.remove("hidden");
 }
 
+
 function shuffle(array){
-    for(let i=array.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [array[i],array[j]]=[array[j],array[i]];
+
+    for(
+        let i=array.length-1;
+        i>0;
+        i--
+    ){
+
+        let j=Math.floor(
+            Math.random()*(i+1)
+        );
+
+        [
+            array[i],
+            array[j]
+        ]=[
+            array[j],
+            array[i]
+        ];
     }
+
     return array;
 }
 
@@ -1638,24 +1770,22 @@ function shuffle(array){
    PREPARATION
 ========================================================= */
 
-function prepareQuestions(){
+function prepare(){
 
-    questions = QUESTIONS.map((q,index)=>{
+    order=Q.map((q,n)=>({
 
-        let choices=q.options.map((text,index)=>({
-            text:text,
-            original:index
-        }));
+        ...q,
 
-        shuffle(choices);
+        index:n,
 
-        return {
-            ...q,
-            choices:choices,
-            originalIndex:index
-        };
+        choices:shuffle(
+            q.o.map((text,k)=>({
+                text:text,
+                k:k
+            }))
+        )
 
-    });
+    }));
 
     answers=Array(100).fill(null);
 }
@@ -1665,25 +1795,29 @@ function prepareQuestions(){
    DEMARRAGE
 ========================================================= */
 
-$("startBtn").onclick=function(){
+$("start").onclick=()=>{
 
-    candidate=$("candidateName").value.trim();
+    name=$("name").value.trim();
 
-    if(!candidate){
-        alert("Veuillez entrer votre nom et postnom.");
+    if(!name){
+
+        alert(
+            "Entre ton nom et postnom."
+        );
+
         return;
     }
 
-    prepareQuestions();
+    prepare();
 
     current=0;
 
-    readingDone={
+    readDone={
         Français:false,
         English:false
     };
 
-    showQuizOrReading();
+    route();
 };
 
 
@@ -1691,20 +1825,24 @@ $("startBtn").onclick=function(){
    ROUTAGE
 ========================================================= */
 
-function showQuizOrReading(){
+function route(){
 
-    let q=questions[current];
+    let q=order[current];
 
     if(
-        q.text &&
-        (q.subject==="Français" || q.subject==="English") &&
-        !readingDone[q.subject]
+        q.r &&
+        !readDone[q.s]
     ){
-        startReading(q.subject,q.text);
+
+        startReading(
+            q.s,
+            q.r
+        );
+
         return;
     }
 
-    renderQuestion();
+    render();
 }
 
 
@@ -1712,120 +1850,156 @@ function showQuizOrReading(){
    LECTURE
 ========================================================= */
 
-function startReading(subject,text){
+function startReading(
+    subject,
+    text
+){
 
-    clearInterval(interval);
-    clearInterval(readingInterval);
+    clearInterval(timer);
+    clearInterval(readingTimer);
 
     show("reading");
 
-    $("readingTitle").textContent=
+    $("rtitle").textContent=
         subject==="Français"
-        ?"Lecture — Français"
-        :"Reading — English";
+        ?
+        "Lecture — Français"
+        :
+        "Reading — English";
 
-    $("readingText").textContent=text;
+    $("rtext").textContent=text;
 
-    readingRemaining=900;
+    readRemaining=900;
 
-    updateReadingTimer();
+    updateRead();
 
-    readingInterval=setInterval(()=>{
+    $("skip").onclick=()=>{
 
-        readingRemaining--;
+        clearInterval(
+            readingTimer
+        );
 
-        updateReadingTimer();
+        readDone[subject]=true;
 
-        if(readingRemaining<=0){
+        render();
 
-            clearInterval(readingInterval);
+    };
 
-            readingDone[subject]=true;
+    readingTimer=setInterval(()=>{
 
-            renderQuestion();
+        readRemaining--;
+
+        updateRead();
+
+        if(readRemaining<=0){
+
+            clearInterval(
+                readingTimer
+            );
+
+            readDone[subject]=true;
+
+            render();
         }
 
     },1000);
-
-    $("skipReading").onclick=function(){
-
-        clearInterval(readingInterval);
-
-        readingDone[subject]=true;
-
-        renderQuestion();
-
-    };
 }
 
-function updateReadingTimer(){
 
-    let min=Math.floor(readingRemaining/60);
-    let sec=readingRemaining%60;
+function updateRead(){
 
-    $("readingTimer").textContent=
-        String(min).padStart(2,"0")
-        +":"
-        +String(sec).padStart(2,"0");
+    $("rtimer").textContent=
+        String(
+            Math.floor(
+                readRemaining/60
+            )
+        ).padStart(2,"0")
+        +
+        ":"
+        +
+        String(
+            readRemaining%60
+        ).padStart(2,"0");
 }
 
 
 /* =========================================================
-   QUESTION
+   AFFICHAGE QUESTION
 ========================================================= */
 
-function renderQuestion(){
+function render(){
 
-    clearInterval(readingInterval);
-    clearInterval(interval);
+    clearInterval(timer);
 
     show("quiz");
 
-    let q=questions[current];
+    let q=order[current];
 
-    $("questionNumber").textContent=
-        "Question "+(current+1)+" / 100";
+    $("progress").textContent=
+        "Question "
+        +
+        (current+1)
+        +
+        " / 100";
 
-    $("subject").textContent=q.subject;
+    $("subject").textContent=q.s;
 
-    $("questionText").textContent=q.question;
+    $("question").textContent=q.q;
 
-    $("progressFill").style.width=
-        ((current+1)/100*100)+"%";
+    $("fill").style.width=
+        (current+1)+"%";
 
     $("options").innerHTML="";
 
-    q.choices.forEach((choice,index)=>{
+    q.choices.forEach(
+        (choice,pos)=>{
 
-        let button=document.createElement("button");
+            let button=
+                document.createElement(
+                    "button"
+                );
 
-        button.className="option";
+            button.className=
+                "option"
+                +
+                (
+                    answers[current]===choice.k
+                    ?
+                    " selected"
+                    :
+                    ""
+                );
 
-        if(answers[current]===choice.original){
-            button.classList.add("selected");
+            button.textContent=
+                String.fromCharCode(
+                    65+pos
+                )
+                +
+                ". "
+                +
+                choice.text;
+
+            button.onclick=()=>{
+
+                answers[current]=
+                    choice.k;
+
+                renderOptions();
+
+                renderNav();
+
+            };
+
+            $("options").appendChild(
+                button
+            );
+
         }
+    );
 
-        button.textContent=
-            String.fromCharCode(65+index)
-            +". "
-            +choice.text;
+    renderNav();
 
-        button.onclick=function(){
-
-            answers[current]=choice.original;
-
-            renderOptions();
-
-            renderNavigation();
-        };
-
-        $("options").appendChild(button);
-
-    });
-
-    renderNavigation();
-
-    startQuestionTimer();
+    startTimer();
 }
 
 
@@ -1835,52 +2009,62 @@ function renderQuestion(){
 
 function renderOptions(){
 
-    let q=questions[current];
+    let q=order[current];
 
-    [...$("options").children].forEach((button,index)=>{
+    [
+        ...$("options").children
+    ].forEach(
+        (button,pos)=>{
 
-        button.classList.toggle(
-            "selected",
-            answers[current]===q.choices[index].original
-        );
+            button.classList.toggle(
+                "selected",
+                answers[current]
+                ===
+                q.choices[pos].k
+            );
 
-    });
+        }
+    );
 }
 
 
 /* =========================================================
-   TIMER QUESTION
+   TIMER
 ========================================================= */
 
-function startQuestionTimer(){
+function startTimer(){
 
-    clearInterval(interval);
+    clearInterval(timer);
 
     remaining=60;
 
-    updateQuestionTimer();
+    updateTimer();
 
-    interval=setInterval(()=>{
+    timer=setInterval(()=>{
 
         remaining--;
 
-        updateQuestionTimer();
+        updateTimer();
 
         if(remaining<=0){
 
-            clearInterval(interval);
+            clearInterval(timer);
 
-            nextQuestion();
+            next();
 
         }
 
     },1000);
 }
 
-function updateQuestionTimer(){
 
-    $("questionTimer").textContent=
-        "00:"+String(remaining).padStart(2,"0");
+function updateTimer(){
+
+    $("timer").textContent=
+        "00:"
+        +
+        String(remaining)
+        .padStart(2,"0");
 }
 
 
@@ -1888,111 +2072,137 @@ function updateQuestionTimer(){
    NAVIGATION
 ========================================================= */
 
-function nextQuestion(){
+function next(){
 
-    clearInterval(interval);
+    clearInterval(timer);
 
     if(current<99){
 
         current++;
 
-        showQuizOrReading();
+        route();
 
     }else{
 
-        finishTest();
+        finish();
 
     }
 }
 
-$("nextBtn").onclick=nextQuestion;
+
+$("next").onclick=next;
 
 
-$("previousBtn").onclick=function(){
-
-    clearInterval(interval);
+$("prev").onclick=()=>{
 
     if(current>0){
 
+        clearInterval(timer);
+
         current--;
 
-        showQuizOrReading();
+        route();
 
     }
 
 };
 
 
-function renderNavigation(){
+function renderNav(){
 
-    $("questionNavigation").innerHTML="";
+    $("nav").innerHTML="";
 
-    questions.forEach((q,index)=>{
+    order.forEach(
+        (q,n)=>{
 
-        let button=document.createElement("button");
+            let button=
+                document.createElement(
+                    "button"
+                );
 
-        button.className="qbtn";
+            button.className=
+                "qbtn"
+                +
+                (
+                    answers[n]!==null
+                    ?
+                    " done"
+                    :
+                    ""
+                )
+                +
+                (
+                    n===current
+                    ?
+                    " current"
+                    :
+                    ""
+                );
 
-        if(answers[index]!==null){
-            button.classList.add("done");
+            button.textContent=n+1;
+
+            button.onclick=()=>{
+
+                clearInterval(timer);
+
+                current=n;
+
+                route();
+
+            };
+
+            $("nav").appendChild(
+                button
+            );
+
         }
-
-        if(index===current){
-            button.classList.add("current");
-        }
-
-        button.textContent=index+1;
-
-        button.onclick=function(){
-
-            clearInterval(interval);
-
-            current=index;
-
-            showQuizOrReading();
-
-        };
-
-        $("questionNavigation").appendChild(button);
-
-    });
-
+    );
 }
 
 
 /* =========================================================
-   TEXTE
+   TEXTE PENDANT LES QUESTIONS
 ========================================================= */
 
-$("textBtn").onclick=function(){
+$("showText").onclick=()=>{
 
-    let q=questions[current];
+    let q=order[current];
 
-    if(!q.text){
+    if(!q.r){
 
-        alert("Cette question ne dépend pas d'un texte.");
+        alert(
+            "Cette question ne dépend pas d'un texte."
+        );
 
         return;
     }
 
-    $("modalTitle").textContent=
-        q.subject==="Français"
-        ?"Texte français"
-        :"English text";
+    $("mtitle").textContent=
+        q.s==="Français"
+        ?
+        "Texte français"
+        :
+        "English text";
 
-    $("modalText").textContent=q.text;
+    $("mtext").textContent=q.r;
 
-    $("textModal").style.display="flex";
+    $("modal").style.display="flex";
 };
 
-$("closeModal").onclick=function(){
-    $("textModal").style.display="none";
+
+$("close").onclick=()=>{
+
+    $("modal").style.display="none";
+
 };
 
-$("textModal").onclick=function(e){
 
-    if(e.target===$("textModal")){
-        $("textModal").style.display="none";
+$("modal").onclick=e=>{
+
+    if(e.target===$("modal")){
+
+        $("modal").style.display="none";
+
     }
 
 };
@@ -2002,117 +2212,133 @@ $("textModal").onclick=function(e){
    RESULTATS
 ========================================================= */
 
-function finishTest(){
+function finish(){
 
-    clearInterval(interval);
-    clearInterval(readingInterval);
+    clearInterval(timer);
+
+    clearInterval(readingTimer);
 
     let score=0;
 
-    let subjectScore={
+    let by={
+
         "Culture générale":[0,0],
+
         "Français":[0,0],
+
         "English":[0,0],
+
         "Maths":[0,0]
+
     };
 
-    let errorHTML="";
+    let errors="";
 
-    questions.forEach((q,index)=>{
 
-        let correct=
-            answers[index]===q.answer;
+    order.forEach(
+        (q,n)=>{
 
-        subjectScore[q.subject][1]++;
+            by[q.s][1]++;
 
-        if(correct){
+            if(
+                answers[n]===q.a
+            ){
 
-            score++;
+                score++;
 
-            subjectScore[q.subject][0]++;
+                by[q.s][0]++;
 
-        }else{
+            }else{
 
-            let chosen="Aucune réponse";
+                let chosen=
+                    "Aucune réponse";
 
-            if(answers[index]!==null){
+                if(
+                    answers[n]!==null
+                ){
 
-                let found=q.choices.find(
-                    c=>c.original===answers[index]
-                );
+                    let c=
+                        q.choices.find(
+                            x=>
+                            x.k
+                            ===
+                            answers[n]
+                        );
 
-                if(found){
-                    chosen=found.text;
+                    if(c){
+
+                        chosen=c.text;
+
+                    }
+
                 }
+
+                errors+=`
+
+<div class="error">
+
+<b>Question ${n+1}</b>
+
+<p>
+${q.q}
+</p>
+
+<p>
+<b>Ta réponse :</b>
+${chosen}
+</p>
+
+<p>
+<b>Bonne réponse :</b>
+${q.o[q.a]}
+</p>
+
+</div>
+
+`;
 
             }
 
-            errorHTML+=`
-
-            <div class="error">
-
-                <b>Question ${index+1}</b>
-
-                <p>${q.question}</p>
-
-                <p>
-                    <b>Ta réponse :</b>
-                    ${chosen}
-                </p>
-
-                <p>
-                    <b>Bonne réponse :</b>
-                    ${q.options[q.answer]}
-                </p>
-
-            </div>
-
-            `;
-
         }
-
-    });
+    );
 
 
     show("results");
 
-    $("finalScore").textContent=
-        candidate+
-        " : "+
-        score+
-        "/100 — "+
-        score+
+
+    $("score").textContent=
+        name
+        +
+        " — "
+        +
+        score
+        +
+        "/100 — "
+        +
+        score
+        +
         "%";
 
 
-    $("subjectScores").innerHTML="";
-
-    Object.keys(subjectScore).forEach(subject=>{
-
-        let data=subjectScore[subject];
-
-        let badge=document.createElement("span");
-
-        badge.className="badge";
-
-        badge.textContent=
-            subject+
-            " : "+
-            data[0]+"/"+
-            data[1];
-
-        $("subjectScores").appendChild(badge);
-
-    });
+    $("subjects").innerHTML=
+        Object.entries(by)
+        .map(
+            ([s,v])=>
+            `<span class="badge">
+            ${s} : ${v[0]}/${v[1]}
+            </span>`
+        )
+        .join("");
 
 
     $("errors").innerHTML=
-        errorHTML ||
-        "<p>Aucune erreur. Score parfait : 100/100.</p>";
+        errors
+        ||
+        "<p>Aucune erreur. 100/100.</p>";
 
 }
 
 </script>
 
 </body>
-  </html>
+    </html>
