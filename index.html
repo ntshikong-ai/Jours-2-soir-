@@ -3,758 +3,2116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Excellentia — Série E — By N.T</title>
+<title>Excellentia RDC — By N.T</title>
+
 <style>
-  :root{
-    --bg:#070b14;--card:#0e1730;--card2:#0a1122;--text:#e6edf7;--muted:#9fb0c9;
-    --accent:#7c3aed;--accent2:#4f46e5;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b;
-    --border:#1c2a4d;--gold:#fbbf24;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
-    background:radial-gradient(1400px 700px at 50% -10%,#1e1b4b 0%,var(--bg) 65%);
-    color:var(--text);min-height:100vh;display:flex;justify-content:center;
-    align-items:flex-start;padding:24px 16px;}
-  #app{width:100%;max-width:960px}
-  .screen{display:none;animation:fade .35s ease}
-  .screen.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .card{background:linear-gradient(180deg,var(--card) 0%,var(--card2) 100%);
-    border:1px solid var(--border);border-radius:18px;padding:28px;
-    box-shadow:0 24px 60px rgba(0,0,0,.55);}
-  h1{font-size:2rem;margin-bottom:6px;background:linear-gradient(90deg,#a78bfa,#f472b6,#fbbf24);
-     -webkit-background-clip:text;background-clip:text;color:transparent}
-  h2{font-size:1.4rem;margin-bottom:14px}
-  h3{font-size:1.05rem;margin-bottom:10px;color:var(--gold)}
-  .badge{display:inline-block;background:linear-gradient(90deg,#7c3aed,#ef4444);
-    color:#fff;font-weight:700;padding:4px 12px;border-radius:999px;
-    font-size:.75rem;letter-spacing:1.5px;margin-bottom:14px;}
-  .level-badge{display:inline-block;background:linear-gradient(90deg,#f59e0b,#7c3aed);
-    color:#fff;font-weight:700;padding:4px 12px;border-radius:999px;
-    font-size:.72rem;letter-spacing:1.5px;margin-left:8px;}
-  .subtitle{color:var(--muted);margin-bottom:22px;font-size:1.05rem}
-  .presentation{background:#0a1327;border:1px solid var(--border);border-radius:12px;
-    padding:18px;margin-bottom:18px}
-  .presentation p{color:var(--muted);line-height:1.7;margin-bottom:10px}
-  .presentation ul{list-style:none;padding-left:0;margin-bottom:12px}
-  .presentation li{padding:7px 0;color:var(--text);border-bottom:1px dashed #1c2a4d}
-  .presentation li:last-child{border-bottom:none}
-  .goodluck{text-align:center;font-size:1.15rem;margin:22px 0;color:#fde68a}
-  .goodluck strong{color:#fbbf24}
-  .btn{display:inline-block;border:none;border-radius:10px;padding:13px 22px;
-    font-size:1rem;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit;}
-  .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
-  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(124,58,237,.45)}
-  .btn.secondary{background:#1c2a4d;color:var(--text);border:1px solid #2a3f66}
-  .btn.secondary:hover{background:#25375a}
-  .btn.danger{background:var(--bad);color:#fff}
-
-  .text-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap}
-  .timer{font-family:'Courier New',monospace;font-weight:700;font-size:1.15rem;
-    background:#0a1327;border:1px solid var(--border);padding:8px 14px;border-radius:10px;
-    color:#a78bfa;min-width:80px;text-align:center;}
-  .timer.danger{color:var(--bad);border-color:var(--bad);animation:pulse 1s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
-  .text-content{background:#080e1e;border:1px solid var(--border);border-radius:12px;
-    padding:22px;max-height:65vh;overflow-y:auto;line-height:1.9;color:#cbd5e1;font-size:1.02rem;}
-  .text-content p{margin-bottom:16px;text-align:justify}
-  .text-actions{margin-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-
-  .quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap}
-  .section-info{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .section-badge{background:#3b1e6e;color:#d8b4fe;padding:5px 12px;border-radius:999px;
-    font-size:.8rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
-  .progress{color:var(--muted);font-size:.9rem}
-  .progress-bar{height:6px;background:#1c2a4d;border-radius:999px;overflow:hidden;margin-bottom:20px}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#f472b6);transition:width .35s}
-  .question{font-size:1.13rem;line-height:1.7;margin-bottom:22px;font-weight:500;
-    padding:16px;background:#0a1327;border-left:4px solid var(--accent);border-radius:8px;}
-  .options{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
-  .option{background:#0a1327;border:1.5px solid var(--border);color:var(--text);
-    padding:14px 18px;border-radius:10px;text-align:left;font-size:1rem;cursor:pointer;
-    transition:.15s;font-family:inherit;line-height:1.55;}
-  .option:hover{background:#122042;border-color:#2a3f66}
-  .option.selected{background:linear-gradient(90deg,#4c1d95,#5b21b6);border-color:var(--accent);color:#fff}
-  .quiz-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-
-  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);
-    z-index:100;align-items:center;justify-content:center;padding:20px}
-  .modal.open{display:flex}
-  .modal-content{background:var(--card);border:1px solid var(--border);border-radius:16px;
-    width:100%;max-width:820px;max-height:85vh;display:flex;flex-direction:column}
-  .modal-header{display:flex;justify-content:space-between;align-items:center;
-    padding:18px 22px;border-bottom:1px solid var(--border);gap:12px}
-  .modal-body{padding:22px;overflow-y:auto;line-height:1.9;color:#cbd5e1}
-  .modal-body p{margin-bottom:14px;text-align:justify}
-  .btn-close{background:transparent;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;padding:4px 10px;border-radius:6px}
-  .btn-close:hover{background:#1c2a4d;color:#fff}
-
-  .results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
-  .result-card{background:#0a1327;border:1px solid var(--border);border-radius:12px;
-    padding:18px;text-align:center;}
-  .result-card h3{color:var(--accent);font-size:.95rem;margin-bottom:8px}
-  .result-score{font-size:1.6rem;font-weight:700}
-  .result-pct{color:var(--muted);margin-top:4px}
-  .total-result{background:linear-gradient(90deg,#4c1d95,#312e81);border:1px solid var(--accent);
-    border-radius:14px;padding:22px;text-align:center;margin-bottom:26px;}
-  .total-result h3{color:#fde68a}
-  .total-score{font-size:2.4rem;font-weight:800;color:#fff}
-  .total-pct{font-size:1.5rem;color:#fbbf24;font-weight:700;margin-top:4px}
-  .errors-list{display:flex;flex-direction:column;gap:12px;margin-top:14px}
-  .error-item{background:#1a0f14;border:1px solid #4c1d24;border-left:4px solid var(--bad);
-    border-radius:10px;padding:14px;}
-  .error-header{display:flex;justify-content:space-between;margin-bottom:8px}
-  .error-section{font-size:.8rem;color:var(--bad);font-weight:700;text-transform:uppercase}
-  .error-num{font-size:.85rem;color:var(--muted)}
-  .error-question{font-weight:600;margin-bottom:8px;line-height:1.5}
-  .error-answer{display:flex;flex-direction:column;gap:4px;font-size:.9rem}
-  .error-answer .given{color:#fca5a5}
-  .error-answer .correct{color:#86efac}
-  .no-errors{text-align:center;padding:30px;color:var(--ok);font-size:1.15rem;font-weight:600}
-
-  .cheat-card{text-align:center;border-color:var(--bad)}
-  .cheat-card h2{color:var(--bad);font-size:1.8rem;margin-bottom:18px}
-
-  @media(max-width:600px){
-    .card{padding:20px}
-    h1{font-size:1.5rem}
-    .question{font-size:1rem}
-    .timer{font-size:1rem;padding:6px 10px}
-  }
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#eef2f7;
+    color:#172033;
+}
+.container{
+    width:min(950px,94%);
+    margin:auto;
+    padding:20px 0 40px;
+}
+.card{
+    background:#fff;
+    border-radius:16px;
+    padding:24px;
+    margin-top:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+.hidden{display:none!important}
+h1,h2{line-height:1.25}
+.small{color:#667085}
+button{
+    cursor:pointer;
+    font:inherit;
+}
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:13px 18px;
+    margin:5px 3px;
+    background:#172033;
+    color:white;
+    font-weight:bold;
+}
+.btn.secondary{
+    background:#e8edf5;
+    color:#172033;
+}
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccd5e3;
+    border-radius:10px;
+    font-size:16px;
+    margin:10px 0;
+}
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+.timer{
+    font-size:24px;
+    font-weight:bold;
+}
+.progress{
+    height:9px;
+    background:#e2e7ef;
+    border-radius:20px;
+    overflow:hidden;
+    margin:12px 0 20px;
+}
+.progressFill{
+    height:100%;
+    width:0;
+    background:#172033;
+}
+.option{
+    display:block;
+    width:100%;
+    text-align:left;
+    padding:15px;
+    margin:10px 0;
+    border:2px solid #dce3ee;
+    border-radius:10px;
+    background:#f8fafc;
+}
+.option:hover{
+    border-color:#172033;
+}
+.option.selected{
+    border-color:#172033;
+    background:#e7edf6;
+}
+.reading{
+    line-height:1.8;
+    text-align:justify;
+    white-space:pre-line;
+    max-height:65vh;
+    overflow:auto;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(48px,1fr));
+    gap:6px;
+    margin-top:15px;
+}
+.qbtn{
+    border:1px solid #ccd5e3;
+    background:white;
+    border-radius:7px;
+    padding:9px 4px;
+}
+.qbtn.done{background:#dce7f4}
+.qbtn.current{
+    border:2px solid #172033;
+    font-weight:bold;
+}
+.error{
+    background:#fff5f5;
+    border-left:4px solid #b42318;
+    padding:12px;
+    margin:10px 0;
+    border-radius:5px;
+}
+.badge{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:20px;
+    background:#e9eef5;
+    margin:4px;
+}
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:100;
+}
+.modalBox{
+    background:white;
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+    border-radius:15px;
+}
 </style>
 </head>
+
 <body>
-<div id="app">
 
-  <div id="screen-home" class="screen active">
-    <div class="card">
-      <div class="badge">By N.T</div>
-      <span class="level-badge">SÉRIE E — PROGRAMME LONA</span>
-      <h1>Test d'Excellence — Édition Spéciale</h1>
-      <p class="subtitle">100 questions — Niveau moyen renforcé + Actualités RDC 2026</p>
+<div class="container">
 
-      <div class="presentation">
-        <h2>Présentation</h2>
-        <p>Ce test est conforme au programme Lona (Excellentia.rdc@fondationlona.org) et intègre les actualités récentes de la RDC.</p>
-        <ul>
-          <li><strong>Culture Générale</strong> — RDC (géographie, volcans, hydrographie, climat, pays limitrophes, provinces & chefs-lieux, actualités 2026) + histoire mondiale</li>
-          <li><strong>Français</strong> — Texte + 5 Q de compréhension, temps verbaux, participes, nature/fonction, figures, pronoms relatifs, déterminants, adverbes, adjectifs, voix passive, discours indirect, superlatifs, propositions, féminin</li>
-          <li><strong>Anglais</strong> — Texte + 5 Q de compréhension, Present/Past Simple & Continuous, Present Perfect, Future, Modals, Conditionals, Comparatives/Superlatives, Articles & Determiners, WH-questions</li>
-          <li><strong>Mathématiques</strong> — Domaines, fonctions de fonctions, périodicité, parité, axes/centres de symétrie, limites, asymptotes, dérivées de base</li>
-        </ul>
-        <p style="color:#fbbf24;font-weight:600">📖 Textes de 15 min — bouton « Passer » disponible. Chrono actif uniquement quand le texte est ouvert.</p>
-        <p style="color:#fbbf24;font-weight:600">🚫 Anti-triche strict.</p>
-      </div>
+<!-- ACCUEIL -->
+<section id="home" class="card">
+    <h1>Excellentia RDC — By N.T</h1>
 
-      <p class="goodluck">🍀 Bonne chance de la part de <strong>Nathan</strong> !</p>
-      <button id="btn-start" class="btn primary" style="width:100%;padding:16px;font-size:1.1rem;">Commencer le test</button>
-    </div>
-  </div>
+    <p>
+        Test d'entraînement niveau <b>moyen</b>
+    </p>
 
-  <div id="screen-text" class="screen">
-    <div class="card">
-      <div class="text-header">
-        <h2 id="text-title">Lecture</h2>
-        <div class="timer" id="text-timer">15:00</div>
-      </div>
-      <div class="text-content" id="text-content"></div>
-      <div class="text-actions">
-        <button id="btn-skip-text" class="btn secondary">Passer aux questions →</button>
-        <button id="btn-start-questions" class="btn primary">Commencer les questions →</button>
-      </div>
-    </div>
-  </div>
+    <p class="small">
+        100 questions • 25 Culture générale • 25 Français •
+        25 English • 25 Maths
+    </p>
 
-  <div id="screen-quiz" class="screen">
-    <div class="card">
-      <div class="quiz-header">
-        <div class="section-info">
-          <span class="section-badge" id="quiz-section">Culture Générale</span>
-          <span class="progress" id="quiz-progress">Question 1 / 25</span>
+    <input id="candidateName" type="text"
+           placeholder="Entre ton nom et ton postnom">
+
+    <button class="btn" id="startBtn">
+        COMMENCER LE TEST
+    </button>
+</section>
+
+
+<!-- LECTURE -->
+<section id="reading" class="card hidden">
+
+    <div class="top">
+        <div>
+            <h2 id="readingTitle"></h2>
+            <p class="small">
+                Temps conseillé : 15 minutes
+            </p>
         </div>
-        <div class="timer" id="question-timer">1:00</div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-      <div class="question" id="question-text"></div>
-      <div class="options" id="options-container"></div>
-      <div class="quiz-actions">
-        <button id="btn-view-text" class="btn secondary" style="display:none;">📖 Voir le texte</button>
-        <button id="btn-next" class="btn primary">Suivant →</button>
-      </div>
-    </div>
-  </div>
 
-  <div id="text-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-title" style="margin:0;">Texte</h3>
-        <div class="timer" id="modal-timer" style="min-width:70px;font-size:1rem;">15:00</div>
-        <button id="btn-close-modal" class="btn-close">✕</button>
-      </div>
-      <div class="modal-body" id="modal-body"></div>
+        <div class="timer" id="readingTimer">
+            15:00
+        </div>
     </div>
-  </div>
 
-  <div id="screen-results" class="screen">
-    <div class="card">
-      <h2>📊 Résultats — By N.T</h2>
-      <div id="results-summary"></div>
-      <div id="results-errors"></div>
-      <button id="btn-restart" class="btn primary" style="margin-top:24px;width:100%;">Recommencer le test</button>
-    </div>
-  </div>
+    <div id="readingText" class="reading"></div>
 
-  <div id="screen-cheat" class="screen">
-    <div class="card cheat-card">
-      <h2>🚫 Tricherie détectée</h2>
-      <p>Vous avez quitté la page pendant le test.</p>
-      <p>Conformément aux règles, le test est immédiatement arrêté.</p>
-      <button id="btn-cheat-home" class="btn danger" style="margin-top:18px;">Retour à l'accueil</button>
+    <br>
+
+    <button class="btn" id="skipReading">
+        PASSER → COMMENCER LES QUESTIONS
+    </button>
+
+</section>
+
+
+<!-- TEST -->
+<section id="quiz" class="card hidden">
+
+    <div class="top">
+        <div>
+            <b id="questionNumber"></b>
+            <div id="subject" class="small"></div>
+        </div>
+
+        <div id="questionTimer" class="timer">
+            01:00
+        </div>
     </div>
-  </div>
+
+    <div class="progress">
+        <div id="progressFill" class="progressFill"></div>
+    </div>
+
+    <h2 id="questionText"></h2>
+
+    <div id="options"></div>
+
+    <div class="top">
+        <button class="btn secondary" id="previousBtn">
+            ← PRÉCÉDENTE
+        </button>
+
+        <button class="btn" id="nextBtn">
+            SUIVANTE →
+        </button>
+    </div>
+
+    <button class="btn secondary" id="textBtn">
+        VOIR LE TEXTE
+    </button>
+
+    <div id="questionNavigation" class="grid"></div>
+
+</section>
+
+
+<!-- RESULTATS -->
+<section id="results" class="card hidden">
+
+    <h1>Résultats</h1>
+
+    <h2 id="finalScore"></h2>
+
+    <div id="subjectScores"></div>
+
+    <h2>Erreurs</h2>
+
+    <div id="errors"></div>
+
+    <button class="btn" onclick="location.reload()">
+        RECOMMENCER
+    </button>
+
+</section>
 
 </div>
 
+
+<!-- MODAL TEXTE -->
+<div id="textModal" class="modal">
+
+    <div class="modalBox">
+
+        <div class="top">
+            <h2 id="modalTitle"></h2>
+
+            <button class="btn secondary" id="closeModal">
+                FERMER
+            </button>
+        </div>
+
+        <div id="modalText" class="reading"></div>
+
+    </div>
+
+</div>
+
+
 <script>
-/* ===================== TEXTES ===================== */
-const FRENCH_TEXT = `
-<p>La République démocratique du Congo est souvent présentée comme un paradoxe vivant : un pays d'une richesse naturelle exceptionnelle, mais dont la population demeure parmi les plus pauvres du monde. Cette contradiction, maintes fois soulignée par les observateurs, mérite d'être examinée avec rigueur. Elle ne relève ni de la fatalité géographique, ni d'une prétendue incapacité des Congolais à gérer leurs affaires. Elle est le produit d'une histoire complexe, faite de prédations, de guerres, de mauvaise gouvernance et d'occasions manquées.</p>
 
-<p>Le sous-sol congolais regorge de ressources stratégiques : cobalt, cuivre, diamant, or, coltan. Ces minerais, indispensables à l'industrie technologique mondiale, auraient pu constituer le socle d'un développement harmonieux. Or, force est de constater qu'ils ont souvent alimenté des conflits, nourri des réseaux de corruption et renforcé la dépendance économique du pays vis-à-vis de l'extérieur. C'est ce que certains économistes appellent la « malédiction des ressources » : un paradoxe selon lequel l'abondance de richesses naturelles entrave le développement au lieu de le stimuler.</p>
+/* =========================================================
+   BANQUE DE QUESTIONS — NIVEAU MOYEN
+========================================================= */
 
-<p>Pourtant, l'histoire récente offre des motifs d'espérer. La nationalisation du programme « Excellentia », initialement porté par la Fondation Lona, illustre une volonté nouvelle de faire de l'éducation une priorité nationale. En 2026, 185 lauréats de l'Examen d'État, issus des 26 provinces, ont bénéficié de cette bourse d'excellence. Ce chiffre, modeste à l'échelle d'un pays de plus de 100 millions d'habitants, témoigne néanmoins d'une dynamique : celle d'un État qui investit dans son capital humain.</p>
-
-<p>Mais l'éducation ne suffira pas. La reconstruction nationale exige des infrastructures, de la sécurité, de la justice, une administration compétente et intègre. Elle exige surtout une vision claire et partagée. Or, le pays demeure confronté à des défis sécuritaires majeurs dans sa partie orientale, où des groupes armés, soutenus de l'extérieur selon les autorités, continuent de semer la terreur et de piller les ressources. Aucun développement durable n'est possible sans paix véritable.</p>
-
-<p>Ce qui est en jeu, en définitive, n'est pas seulement la croissance économique. C'est la dignité d'un peuple, la souveraineté d'une nation, l'avenir d'une jeunesse. Une jeunesse qui refuse la fatalité, qui invente ses propres chemins, qui ne demande pas la charité mais la justice. À nous, adultes, de ne pas trahir cet espoir. À nous de construire, enfin, un Congo digne de ses enfants.</p>
-`;
-
-const ENGLISH_TEXT = `
-<p>Reading is often described as one of the most enriching activities a human being can engage in. Through books, we travel to distant lands, meet unforgettable characters, and confront ideas that challenge our most deeply held beliefs. Whether fiction or non-fiction, every book is a doorway to another mind, another life, another time.</p>
-
-<p>Unfortunately, in many parts of the world, reading is in decline. Screens have replaced pages, notifications have replaced paragraphs, and images have replaced words. Young people especially are less likely to read long texts, and more likely to consume short videos or fragmented messages. This shift is not necessarily catastrophic, but it deserves attention. Reading develops empathy, deepens concentration, and nurtures critical thinking in ways that no other medium can truly replicate.</p>
-
-<p>Schools play a central role in fostering a love of reading. When teachers themselves are readers, when libraries are well-stocked and welcoming, when reading is celebrated rather than imposed, students naturally become curious. On the contrary, when reading is reduced to a boring obligation, disconnected from real life, it produces lifelong resistance.</p>
-
-<p>Parents also matter. A child who sees their parents reading, who is read to at bedtime, who grows up surrounded by books, is far more likely to become a reader than a child raised in an environment where books are absent or ignored. Reading, in other words, is as much a cultural habit as it is an academic skill.</p>
-
-<p>In our digital age, we must therefore be intentional. We must not simply hope that young people will read; we must create the conditions for them to discover the joy of reading. Books remain one of humanity's greatest inventions. It would be a tragedy to let them gather dust while we scroll endlessly through screens.</p>
-`;
-
-/* ===================== QUESTIONS ===================== */
 const QUESTIONS = [
-  /* ---------- CULTURE GÉNÉRALE (25) ---------- */
-  {section:'culture',q:"Quel est le point culminant de la RDC ?",options:["Le mont Karisimbi","Le pic Marguerite (mont Stanley)","Le mont Nyiragongo","Le mont Mitumba"],correct:1},
-  {section:'culture',q:"Le pic Marguerite culmine à :",options:["4 507 m","5 109 m","5 895 m","4 877 m"],correct:1},
-  {section:'culture',q:"Le mont Stanley est situé dans le massif du :",options:["Mitumba","Rwenzori","Virunga","Maniema"],correct:1},
-  {section:'culture',q:"Le pic Marguerite est situé à la frontière entre la RDC et :",options:["Le Rwanda","L'Ouganda","Le Burundi","La Tanzanie"],correct:1},
-  {section:'culture',q:"Quel volcan est situé près de Goma et est entré en éruption en 2021 ?",options:["Nyamulagira","Nyiragongo","Karisimbi","Visoke"],correct:1},
-  {section:'culture',q:"Quel est le plus long affluent de rive droite du fleuve Congo ?",options:["Le Kasaï","L'Oubangui","L'Aruwimi","La Lomami"],correct:1},
-  {section:'culture',q:"Le lac Kivu est situé à la frontière entre la RDC et :",options:["Le Burundi","Le Rwanda","L'Ouganda","La Tanzanie"],correct:1},
-  {section:'culture',q:"Quel pays ne partage PAS de frontière avec la RDC ?",options:["Le Soudan du Sud","La République Centrafricaine","Le Cameroun","Le Burundi"],correct:2},
-  {section:'culture',q:"Quel type de climat domine la cuvette centrale en RDC ?",options:["Climat tropical humide","Climat équatorial","Climat sahélien","Climat montagnard"],correct:1},
-  {section:'culture',q:"La saison des pluies dans le nord de la RDC s'étend principalement de :",options:["Mars à novembre","Avril à octobre","Juillet à septembre","Janvier à mars"],correct:0},
-  {section:'culture',q:"Quel est le chef-lieu de la province du Kongo-Central ?",options:["Boma","Matadi","Muanda","Inkisi"],correct:1},
-  {section:'culture',q:"Quel est le chef-lieu de la province du Kasaï-Oriental ?",options:["Kananga","Mbuji-Mayi","Tshikapa","Luebo"],correct:1},
-  {section:'culture',q:"Quel est le chef-lieu de la province du Sud-Kivu ?",options:["Goma","Bukavu","Uvira","Baraka"],correct:1},
-  {section:'culture',q:"L'ancienne appellation coloniale de Mbandaka était :",options:["Coquilhatville","Stanleyville","Élisabethville","Léopoldville"],correct:0},
-  {section:'culture',q:"En quelle année le programme « Excellentia » a-t-il été nationalisé ?",options:["2023","2024","2025","2026"],correct:2},
-  {section:'culture',q:"Combien de lauréats ont bénéficié de la bourse Excellentia RDC en 2026 ?",options:["79","100","185","250"],correct:2},
-  {section:'culture',q:"Quel est le seuil d'éligibilité à l'Examen d'État pour la bourse Excellentia ?",options:["60%","70%","80%","90%"],correct:2},
-  {section:'culture',q:"Quel organisme organise le test national Excellentia RDC ?",options:["La Fondation Lona et le ministère de l'ESU","L'UNESCO","La Banque mondiale","L'Union africaine"],correct:0},
-  {section:'culture',q:"Quel pays est accusé par la RDC de soutenir le groupe M23 dans l'Est ?",options:["L'Ouganda","Le Rwanda","Le Burundi","La Tanzanie"],correct:1},
-  {section:'culture',q:"Quel accord de paix a été signé entre la RDC et le Rwanda en 2025 ?",options:["Accord de Washington","Accord de Luanda","Accord de Nairobi","Accord de Doha"],correct:0},
-  {section:'culture',q:"Quelle est la date de la Journée internationale de l'Afrique ?",options:["25 mai","30 juin","1er juillet","26 décembre"],correct:0},
-  {section:'culture',q:"Quel événement de 1989 a précipité la fin de la guerre froide ?",options:["La chute du mur de Berlin","La crise de Cuba","La guerre du Vietnam","L'indépendance de la RDC"],correct:0},
-  {section:'culture',q:"En quelle année la Première Guerre mondiale a-t-elle pris fin ?",options:["1917","1918","1919","1920"],correct:1},
-  {section:'culture',q:"Quel pays africain a été le premier à obtenir son indépendance en 1957 ?",options:["Le Ghana","La Guinée","Le Sénégal","Le Nigeria"],correct:0},
-  {section:'culture',q:"L'ONU a été créée en :",options:["1919","1939","1945","1950"],correct:2},
 
-  /* ---------- FRANÇAIS (25) ---------- */
-  {section:'francais',q:"Quelle est la thèse principale de l'auteur ?",options:["La RDC est pauvre par fatalité","La richesse de la RDC est un paradoxe lié à l'histoire et à la gouvernance","L'éducation ne sert à rien","Le Congo doit copier l'Occident"],correct:1},
-  {section:'francais',q:"Que désigne la « malédiction des ressources » ?",options:["Une malédiction religieuse","Le paradoxe où l'abondance naturelle entrave le développement","Une théorie fausse","Un problème climatique"],correct:1},
-  {section:'francais',q:"Selon l'auteur, que faut-il pour reconstruire la RDC ?",options:["Uniquement de l'argent","Des infrastructures, la sécurité, la justice et une vision partagée","Seulement l'éducation","L'aide étrangère"],correct:1},
-  {section:'francais',q:"Que reproche l'auteur aux groupes armés dans l'Est ?",options:["De semer la terreur et de piller les ressources","De protéger la population","De construire des écoles","De faire du commerce"],correct:0},
-  {section:'francais',q:"Quelle est la conclusion du texte ?",options:["La RDC est condamnée","Il faut construire un Congo digne de ses enfants","L'Afrique n'a pas d'avenir","Seuls les adultes comptent"],correct:1},
-  {section:'francais',q:"Dans « Je vais à Kinshasa demain », le temps du verbe est :",options:["Présent","Futur simple","Futur proche","Passé composé"],correct:1},
-  {section:'francais',q:"Dans « Ils sont partis hier », « partis » est :",options:["Participe présent","Participe passé","Infinitif","Gérondif"],correct:1},
-  {section:'francais',q:"Dans « Les élèves que j'ai vus sont studieux », pourquoi « vus » prend-il un « s » ?",options:["Le COD est placé avant le verbe","Le sujet est pluriel","Le verbe est pronominal","Erreur d'accord"],correct:0},
-  {section:'francais',q:"Quelle est la nature de « rapidement » ?",options:["Adjectif","Adverbe","Nom","Pronom"],correct:1},
-  {section:'francais',q:"Dans « Le chien de mon voisin aboie », quelle est la fonction de « de mon voisin » ?",options:["Complément du nom","Complément circonstanciel","Complément d'objet indirect","Apposition"],correct:0},
-  {section:'francais',q:"Un oxymore est :",options:["Deux mots contradictoires rapprochés","Une exagération","Une comparaison sans outil","Une répétition"],correct:0},
-  {section:'francais',q:"« Je meurs de faim » est une :",options:["Litote","Hyperbole","Métaphore","Métonymie"],correct:1},
-  {section:'francais',q:"Le pronom relatif qui remplace un lieu est :",options:["qui","que","où","dont"],correct:2},
-  {section:'francais',q:"« Cette voiture est la mienne » : « la mienne » est un :",options:["Adjectif possessif","Pronom possessif","Article défini","Déterminant démonstratif"],correct:1},
-  {section:'francais',q:"« Chaque élève doit travailler » : « chaque » est un :",options:["Adjectif qualificatif","Déterminant indéfini","Pronom indéfini","Adverbe"],correct:1},
-  {section:'francais',q:"L'adverbe « très » modifie :",options:["Un nom","Un verbe uniquement","Un adjectif ou un adverbe","Un article"],correct:2},
-  {section:'francais',q:"Dans « une belle maison », « belle » est :",options:["Attribut","Épithète","Apposition","Complément du nom"],correct:1},
-  {section:'francais',q:"La voix passive de « Le chat mange la souris » est :",options:["La souris est mangée par le chat","La souris mange le chat","Le chat est mangé par la souris","La souris a mangé le chat"],correct:0},
-  {section:'francais',q:"Le discours indirect de « Il dit : “Je viendrai” » est :",options:["Il dit qu'il viendra","Il dit je viendrai","Il dit qu'il viendrait","Il a dit je viens"],correct:0},
-  {section:'francais',q:"Le superlatif de « bon » est :",options:["Meilleur","Très bon","Le meilleur","Plus bon"],correct:2},
-  {section:'francais',q:"Dans « Je pense qu'il viendra », la subordonnée est :",options:["Relative","Complétive conjonctive","Circonstancielle","Interrogative indirecte"],correct:1},
-  {section:'francais',q:"Le féminin de « un empereur » est :",options:["Une empereur","Une impératrice","Une emperoresse","Une emperière"],correct:1},
-  {section:'francais',q:"Le féminin de « un favori » est :",options:["Une favorite","Une favorie","Une favorise","Une favorix"],correct:0},
-  {section:'francais',q:"Le féminin de « un serviteur » est :",options:["Une serviteuse","Une servante","Une servitrice","Une serviteure"],correct:1},
-  {section:'francais',q:"Dans « Je lui parle », « lui » est :",options:["COD","COI","Sujet","Attribut"],correct:1},
+/* ================= CULTURE GENERALE ================= */
 
-  /* ---------- ANGLAIS (25) ---------- */
-  {section:'anglais',q:"What is the main idea of the passage?",options:["Reading is a waste of time","Reading enriches life and must be encouraged","Only non-fiction matters","Books are obsolete"],correct:1},
-  {section:'anglais',q:"According to the author, what has replaced pages in our time?",options:["Radios","Screens","Newspapers","Letters"],correct:1},
-  {section:'anglais',q:"What does reading develop according to the passage?",options:["Aggression","Empathy, concentration, critical thinking","Poverty","Isolation"],correct:1},
-  {section:'anglais',q:"What role do schools play in reading?",options:["No role","A central role in fostering a love of reading","Only a financial role","A negative role"],correct:1},
-  {section:'anglais',q:"What does the author imply parents should do?",options:["Nothing","Read themselves and read to their children","Buy only digital books","Forbid reading"],correct:1},
-  {section:'anglais',q:"“She ___ her homework every evening.” (Present Simple)",options:["do","does","doing","did"],correct:1},
-  {section:'anglais',q:"“They ___ football right now.” (Present Continuous)",options:["play","plays","are playing","played"],correct:2},
-  {section:'anglais',q:"“We ___ to Paris last summer.” (Past Simple)",options:["go","went","gone","going"],correct:1},
-  {section:'anglais',q:"“She ___ TV when I arrived.” (Past Continuous)",options:["watches","watched","was watching","is watching"],correct:2},
-  {section:'anglais',q:"“I ___ already ___ that film.” (Present Perfect)",options:["have / seen","has / seen","had / saw","am / seeing"],correct:0},
-  {section:'anglais',q:"“Next year, she ___ to university.” (Future)",options:["goes","went","will go","going"],correct:2},
-  {section:'anglais',q:"Modal for advice: “You ___ see a doctor.”",options:["may","should","might","could"],correct:1},
-  {section:'anglais',q:"Modal for prohibition: “You ___ smoke here.”",options:["mustn't","can","should","may"],correct:0},
-  {section:'anglais',q:"Type 1 conditional: “If you study, you ___ the exam.”",options:["pass","will pass","passed","would pass"],correct:1},
-  {section:'anglais',q:"Type 3 conditional: “If I ___ known, I would have come.”",options:["have","had","would have","has"],correct:1},
-  {section:'anglais',q:"Comparative: “Mount Everest is ___ than Kilimanjaro.”",options:["high","higher","highest","more high"],correct:1},
-  {section:'anglais',q:"Superlative: “She is ___ girl in the class.”",options:["the tallest","taller","tallest","most tall"],correct:0},
-  {section:'anglais',q:"Article: “___ University of Kinshasa is famous.”",options:["A","An","The","(nothing)"],correct:2},
-  {section:'anglais',q:"Determiner: “I have ___ money in my pocket.”",options:["a little","a few","many","few"],correct:0},
-  {section:'anglais',q:"WH-question: “___ is your birthday?”",options:["What","When","Where","Who"],correct:1},
-  {section:'anglais',q:"WH-question: “___ are you going with?”",options:["Who","Whose","Which","Whom"],correct:0},
-  {section:'anglais',q:"WH-question: “___ colour do you prefer?”",options:["Who","Which","Whose","Whom"],correct:1},
-  {section:'anglais',q:"“She has worked here ___ three years.”",options:["since","for","during","from"],correct:1},
-  {section:'anglais',q:"“They ___ never ___ to Africa.” (Present Perfect)",options:["have / been","has / been","had / was","are / being"],correct:0},
-  {section:'anglais',q:"“He told me he ___ busy.” (Reported speech)",options:["is","was","will be","has been"],correct:1},
+{
+subject:"Culture générale",
+question:"Après l'indépendance de 1960, quelle fonction occupait Joseph Kasa-Vubu ?",
+options:[
+"Président de la République",
+"Premier ministre",
+"Président de l'Assemblée nationale",
+"Gouverneur du Katanga"
+],
+answer:0
+},
 
-  /* ---------- MATHÉMATIQUES (25) ---------- */
-  {section:'maths',q:"L'ensemble de définition de f(x) = √(x − 2) est :",options:["]−∞, 2]","[2, +∞[","]2, +∞[","ℝ"],correct:1},
-  {section:'maths',q:"L'ensemble de définition de f(x) = 1/(x + 4) est :",options:["ℝ","ℝ \\ {4}","ℝ \\ {−4}","[−4, +∞["],correct:2},
-  {section:'maths',q:"L'ensemble de définition de f(x) = 1/(x² − 1) est :",options:["ℝ","ℝ \\ {1}","ℝ \\ {−1, 1}","[−1, 1]"],correct:2},
-  {section:'maths',q:"L'ensemble de définition de f(x) = √(3 − x) est :",options:["]−∞, 3]","[3, +∞[","]3, +∞[","ℝ"],correct:0},
-  {section:'maths',q:"Si f(x) = 2x + 1 et g(x) = x², alors (f∘g)(x) vaut :",options:["2x² + 1","(2x + 1)²","2x³ + 1","x² + 2x + 1"],correct:0},
-  {section:'maths',q:"Si f(x) = x − 3 et g(x) = 2x, alors (g∘f)(x) vaut :",options:["2x − 3","2(x − 3)","2x − 6","x − 6"],correct:1},
-  {section:'maths',q:"La période de la fonction f(x) = sin(3x) est :",options:["2π/3","3π","π/3","2π"],correct:0},
-  {section:'maths',q:"La période de la fonction f(x) = cos(x) est :",options:["π","2π","π/2","4π"],correct:1},
-  {section:'maths',q:"La fonction f(x) = x⁴ + 2x² est :",options:["Paire","Impaire","Ni paire ni impaire","Périodique"],correct:0},
-  {section:'maths',q:"La fonction f(x) = x³ + x est :",options:["Paire","Impaire","Ni paire ni impaire","Constante"],correct:1},
-  {section:'maths',q:"La fonction f(x) = x² + 3x est :",options:["Paire","Impaire","Ni paire ni impaire","Périodique"],correct:2},
-  {section:'maths',q:"Une fonction paire admet un axe de symétrie :",options:["L'axe des x","L'axe des y","L'origine O","Aucun"],correct:1},
-  {section:'maths',q:"Une fonction impaire admet un centre de symétrie :",options:["L'origine O","L'axe des y","L'axe des x","Aucun"],correct:0},
-  {section:'maths',q:"lim(x→+∞) (4x² + 1)/(2x² − 3) vaut :",options:["0","1","2","+∞"],correct:2},
-  {section:'maths',q:"lim(x→+∞) (x + 5)/(x² + 1) vaut :",options:["0","1","+∞","−∞"],correct:0},
-  {section:'maths',q:"lim(x→3) (x² − 9)/(x − 3) vaut :",options:["0","3","6","Indéfini"],correct:2},
-  {section:'maths',q:"La fonction f(x) = 1/(x − 2) a une asymptote verticale en :",options:["x = 0","x = 2","x = −2","y = 0"],correct:1},
-  {section:'maths',q:"La fonction f(x) = (x² + 1)/(x − 1) a pour asymptote oblique :",options:["y = x + 1","y = x − 1","y = x","Aucune"],correct:0},
-  {section:'maths',q:"La dérivée de f(x) = x⁴ est :",options:["x³","4x³","4x","x⁴/4"],correct:1},
-  {section:'maths',q:"La dérivée de f(x) = 3x + 7 est :",options:["3","7","3x","0"],correct:0},
-  {section:'maths',q:"La dérivée de f(x) = x² + 5x est :",options:["2x","2x + 5","x + 5","2x²"],correct:1},
-  {section:'maths',q:"La dérivée de f(x) = cos(x) est :",options:["sin(x)","−sin(x)","cos(x)","−cos(x)"],correct:1},
-  {section:'maths',q:"La dérivée de f(x) = sin(x) est :",options:["−cos(x)","cos(x)","−sin(x)","tan(x)"],correct:1},
-  {section:'maths',q:"La solution de l'équation 3x − 4 = 11 est :",options:["x = 3","x = 4","x = 5","x = 7"],correct:2},
-  {section:'maths',q:"La solution de l'équation x² = 25 est :",options:["x = 5 seulement","x = −5 seulement","x = 5 ou x = −5","x = 25"],correct:2}
+{
+subject:"Culture générale",
+question:"Quel événement marque principalement le 17 mai 1997 dans l'histoire récente de la RDC ?",
+options:[
+"La fin du régime de Mobutu et l'arrivée de l'AFDL à Kinshasa",
+"L'indépendance du Congo",
+"La création de l'État indépendant du Congo",
+"La promulgation de la Constitution de 2006"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quelle appellation correspond à l'actuelle ville de Mbandaka pendant la période coloniale ?",
+options:[
+"Coquilhatville",
+"Stanleyville",
+"Élisabethville",
+"Costermansville"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Bukavu était anciennement connue sous le nom de :",
+options:[
+"Costermansville",
+"Coquilhatville",
+"Léopoldville",
+"Stanleyville"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quelle ancienne appellation correspond à Kananga ?",
+options:[
+"Luluabourg",
+"Élisabethville",
+"Stanleyville",
+"Coquilhatville"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quelle province a pour chef-lieu la ville de Kolwezi ?",
+options:[
+"Lualaba",
+"Haut-Katanga",
+"Haut-Lomami",
+"Tanganyika"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quelle province a pour chef-lieu Kindu ?",
+options:[
+"Maniema",
+"Sud-Kivu",
+"Tanganyika",
+"Nord-Kivu"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quelle province a pour chef-lieu Kalemie ?",
+options:[
+"Tanganyika",
+"Maniema",
+"Haut-Lomami",
+"Sud-Kivu"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"La RDC possède une façade maritime relativement courte sur :",
+options:[
+"L'océan Atlantique",
+"L'océan Indien",
+"la mer Méditerranée",
+"le golfe d'Aden"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Le bassin hydrographique du fleuve Congo se caractérise principalement par :",
+options:[
+"Un réseau fluvial très dense",
+"Une absence presque totale de cours d'eau",
+"Un climat exclusivement désertique",
+"Des cours d'eau tous intermittents"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel lac est situé à la frontière orientale de la RDC et du Rwanda notamment ?",
+options:[
+"Lac Kivu",
+"Lac Tchad",
+"Lac Turkana",
+"Lac Volta"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Le Nyiragongo appartient à la région volcanique située dans :",
+options:[
+"Le Nord-Kivu",
+"Le Kasaï",
+"Le Haut-Uélé",
+"Le Kongo-Central"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel volcan est particulièrement connu pour son lac de lave et sa proximité avec Goma ?",
+options:[
+"Nyiragongo",
+"Etna",
+"Kilimandjaro",
+"Meru"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"La RDC partage sa frontière la plus occidentale avec :",
+options:[
+"La République du Congo",
+"L'Ouganda",
+"La Tanzanie",
+"La Zambie"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Lequel de ces pays ne possède pas de frontière avec la RDC ?",
+options:[
+"Le Zimbabwe",
+"L'Angola",
+"Le Burundi",
+"La République centrafricaine"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel pays possède une frontière avec la RDC à l'est et au nord-est ?",
+options:[
+"L'Ouganda",
+"Le Sénégal",
+"Le Ghana",
+"La Namibie"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"La conférence de Berlin de 1884-1885 est particulièrement importante pour l'histoire du Congo parce qu'elle :",
+options:[
+"A organisé les règles de reconnaissance et de compétition coloniale en Afrique",
+"A proclamé l'indépendance du Congo",
+"A créé la République démocratique du Congo",
+"A mis fin à la Première Guerre mondiale"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel territoire correspondait à l'État indépendant du Congo avant son annexion par la Belgique en 1908 ?",
+options:[
+"Un territoire placé sous la souveraineté personnelle de Léopold II",
+"Une colonie britannique",
+"Une république indépendante dirigée par Lumumba",
+"Une province française"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"En 1908, l'État indépendant du Congo devient :",
+options:[
+"Le Congo belge",
+"Le Zaïre",
+"La République du Congo",
+"La République démocratique du Congo"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Le changement du nom Congo en Zaïre est intervenu sous le régime de :",
+options:[
+"Mobutu Sese Seko",
+"Patrice Lumumba",
+"Joseph Kasa-Vubu",
+"Laurent-Désiré Kabila"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quelle guerre a commencé en 1996 et a entraîné la chute du régime de Mobutu en 1997 ?",
+options:[
+"La Première guerre du Congo",
+"La guerre de Corée",
+"La guerre du Biafra",
+"La guerre d'Algérie"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel parc national de la RDC est inscrit au patrimoine mondial de l'UNESCO et est particulièrement connu pour sa biodiversité ?",
+options:[
+"Parc national de Virunga",
+"Parc national de Nairobi",
+"Parc national du Serengeti",
+"Parc national Kruger"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel climat est particulièrement caractéristique de la région située autour de l'équateur en RDC ?",
+options:[
+"Climat équatorial humide",
+"Climat désertique froid",
+"Climat méditerranéen",
+"Climat polaire"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Pourquoi les régions de l'est de la RDC connaissent-elles davantage de reliefs élevés que la cuvette centrale ?",
+options:[
+"Elles appartiennent à une zone de hauts reliefs et de la branche occidentale du Rift est-africain",
+"Elles sont entièrement désertiques",
+"Elles sont situées au niveau de l'océan Atlantique",
+"Elles ne possèdent aucun volcan"
+],
+answer:0
+},
+
+{
+subject:"Culture générale",
+question:"Quel est le point culminant de la RDC ?",
+options:[
+"Le pic Margherita du mont Stanley",
+"Le Nyiragongo",
+"Le mont Karisimbi",
+"Le mont Cameroun"
+],
+answer:0
+},
+
+/* ================= FRANÇAIS : TEXTE ================= */
+
+{
+subject:"Français",
+question:"Quelle thèse principale est défendue dans le texte ?",
+options:[
+"Une bonne préparation repose sur un apprentissage actif, régulier et critique.",
+"La réussite dépend principalement de la mémorisation rapide.",
+"Les examens évaluent uniquement la mémoire.",
+"Le travail scolaire doit être limité à la lecture."
+],
+answer:0,
+text:`Dans toute préparation sérieuse à une épreuve exigeante, la quantité de travail constitue un élément important, mais elle ne suffit pas à expliquer les différences de progression entre deux candidats. Deux élèves peuvent consacrer un nombre identique d'heures à leurs révisions et pourtant obtenir des résultats très différents. L'un peut passer plusieurs heures à relire ses notes tandis que l'autre consacre une partie de son temps à résoudre des problèmes, à répondre à des questions sans regarder son cours et à analyser systématiquement ses erreurs.
+
+Cette différence repose en partie sur la nature de l'effort fourni. La relecture donne souvent une impression de familiarité : une définition paraît évidente parce qu'elle a déjà été rencontrée plusieurs fois. Pourtant, lorsqu'il faut restituer cette définition sans support ou l'utiliser dans une situation nouvelle, la difficulté peut réapparaître. La récupération active des connaissances permet précisément de mesurer ce que l'on sait réellement.
+
+La correction joue également un rôle déterminant. Une erreur ne constitue pas seulement une perte de points ; elle peut révéler une lacune précise. Un candidat peut avoir confondu deux notions, mal interprété une consigne, appliqué une règle dans un contexte où elle ne convient pas ou répondu trop rapidement. Ces causes ne se corrigent pas de la même manière. Il est donc plus utile d'identifier la nature de l'erreur que de se contenter de mémoriser la réponse correcte.
+
+La difficulté augmente encore lorsque les questions deviennent proches les unes des autres. Dans un examen sélectif, plusieurs propositions peuvent sembler plausibles. La différence entre elles repose parfois sur un seul mot, une condition, un temps verbal ou une relation logique. La lecture attentive de la consigne devient alors une compétence à part entière. Répondre vite peut être utile lorsque le temps est limité, mais la vitesse ne doit pas remplacer la précision.
+
+La régularité constitue enfin un facteur essentiel. Une séance exceptionnelle de plusieurs heures peut être impressionnante, mais elle ne garantit pas une mémorisation durable. Des séances répétées permettent de réactiver progressivement les connaissances et de revenir sur les notions qui résistent. L'objectif n'est donc pas de travailler constamment, mais d'organiser le travail de manière à rendre chaque séance réellement productive.
+
+Cette méthode exige une certaine honnêteté intellectuelle. Il faut accepter de constater qu'une notion que l'on croyait maîtriser ne l'est pas encore. Il faut également résister à la tentation de sélectionner uniquement les exercices faciles. Les difficultés signalent souvent les domaines dans lesquels l'amélioration peut être la plus importante.
+
+Ainsi, une préparation efficace associe plusieurs éléments : compréhension, récupération active, entraînement, correction, répétition et gestion du temps. Aucun de ces éléments ne remplace complètement les autres. C'est leur combinaison qui transforme progressivement une connaissance fragile en compétence utilisable dans une situation nouvelle.`
+},
+
+{
+subject:"Français",
+question:"Pourquoi la relecture peut-elle donner une fausse impression de maîtrise ?",
+options:[
+"Parce qu'elle rend les textes plus difficiles à comprendre.",
+"Parce que la familiarité avec une information ne garantit pas sa restitution autonome.",
+"Parce qu'elle empêche toute mémorisation.",
+"Parce qu'elle est toujours moins efficace que l'écoute."
+],
+answer:1,
+text:""
+},
+
+{
+subject:"Français",
+question:"Selon le texte, que peut révéler une erreur ?",
+options:[
+"Uniquement un manque d'intelligence.",
+"Une lacune, une mauvaise interprétation, une confusion ou une précipitation.",
+"Que la question était nécessairement incorrecte.",
+"Que le candidat doit abandonner la matière."
+],
+answer:1,
+text:""
+},
+
+{
+subject:"Français",
+question:"Pourquoi la lecture de la consigne devient-elle particulièrement importante dans un examen sélectif ?",
+options:[
+"Parce que toutes les propositions sont identiques.",
+"Parce que plusieurs réponses peuvent sembler plausibles et différer sur un détail précis.",
+"Parce qu'il n'existe aucune limite de temps.",
+"Parce qu'il faut toujours choisir la réponse la plus longue."
+],
+answer:1,
+text:""
+},
+
+{
+subject:"Français",
+question:"Quelle méthode de travail est privilégiée par le texte ?",
+options:[
+"Une longue séance unique avant l'examen.",
+"Une lecture passive répétée.",
+"Des séances régulières combinant compréhension, entraînement et correction.",
+"Le choix exclusif des exercices faciles."
+],
+answer:2,
+text:""
+},
+
+/* ================= FRANÇAIS GRAMMAIRE ================= */
+
+{
+subject:"Français",
+question:"Dans « Les résultats que nous avons obtenus sont encourageants », pourquoi « obtenus » prend-il le pluriel ?",
+options:[
+"Parce que le sujet est « nous ».",
+"Parce que le COD « que », placé avant l'auxiliaire avoir, représente « les résultats ».",
+"Parce que le verbe est toujours accordé avec l'auxiliaire.",
+"Parce que « encourageants » impose l'accord."
+],
+answer:1
+},
+
+{
+subject:"Français",
+question:"Dans « En travaillant régulièrement, il progresse », « en travaillant » est :",
+options:[
+"Un gérondif",
+"Un participe passé",
+"Un infinitif passé",
+"Un adjectif verbal"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Les décisions prises hier seront appliquées demain », « prises » est :",
+options:[
+"Un participe passé employé comme adjectif",
+"Un infinitif",
+"Un adverbe",
+"Un participe présent"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Je souhaite que tu réussisses », « que tu réussisses » est :",
+options:[
+"Une proposition subordonnée conjonctive complétive",
+"Une proposition subordonnée relative",
+"Une proposition principale",
+"Une proposition infinitive"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « L'élève dont je parle est absent », « dont » est :",
+options:[
+"Un pronom relatif",
+"Un déterminant possessif",
+"Un adverbe",
+"Une conjonction"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Il travaille extrêmement bien », « extrêmement » est :",
+options:[
+"Un adjectif",
+"Un adverbe",
+"Un déterminant",
+"Un pronom"
+],
+answer:1
+},
+
+{
+subject:"Français",
+question:"Dans « Plusieurs candidats ont répondu », « plusieurs » est :",
+options:[
+"Un déterminant indéfini",
+"Un adverbe",
+"Un pronom personnel",
+"Un adjectif qualificatif"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Cette réponse est correcte », « cette » est :",
+options:[
+"Un déterminant démonstratif",
+"Un pronom démonstratif",
+"Un adverbe",
+"Un article défini"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Quel temps est utilisé dans « Il aurait réussi s'il avait davantage travaillé » ?",
+options:[
+"Conditionnel passé",
+"Futur antérieur",
+"Plus-que-parfait",
+"Passé antérieur"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Lorsqu'il eut terminé, il sortit », « eut terminé » est au :",
+options:[
+"Passé antérieur",
+"Plus-que-parfait",
+"Passé composé",
+"Conditionnel passé"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Je partirai dès que tu seras prêt », « seras » est au :",
+options:[
+"Futur simple",
+"Présent du subjonctif",
+"Conditionnel présent",
+"Imparfait"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Quelle phrase contient correctement le subjonctif ?",
+options:[
+"Il faut que tu viens.",
+"Il faut que tu viennes.",
+"Il faut que tu viendras.",
+"Il faut que tu venir."
+],
+answer:1
+},
+
+{
+subject:"Français",
+question:"Quel est le féminin correct de « héros » ?",
+options:[
+"Héroïne",
+"Hérose",
+"Hérote",
+"Hérosse"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Quelle figure de style consiste à exagérer volontairement une réalité ?",
+options:[
+"Hyperbole",
+"Litote",
+"Ellipse",
+"Antithèse"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"« Il n'est pas mauvais » pour signifier « il est assez bon » constitue notamment :",
+options:[
+"Une litote",
+"Une hyperbole",
+"Un oxymore",
+"Une comparaison"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Quelle transformation correspond au discours indirect ? « Marie dit : “Je viendrai demain.” »",
+options:[
+"Marie dit qu'elle viendra demain.",
+"Marie dit qu'elle viendrait le lendemain.",
+"Marie dit : qu'elle viendra demain.",
+"Marie disait qu'elle vient demain."
+],
+answer:1
+},
+
+{
+subject:"Français",
+question:"Dans « Le livre que tu lis appartient à Paul », la fonction de « que » est :",
+options:[
+"COD du verbe « lis »",
+"COI du verbe « lis »",
+"Sujet du verbe « lis »",
+"Attribut"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Paul semble fatigué », « fatigué » est :",
+options:[
+"Attribut du sujet",
+"COD",
+"COI",
+"Complément circonstanciel"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Quel est le superlatif relatif correct ?",
+options:[
+"Le plus intéressant",
+"Plus très intéressant",
+"Le très intéressant",
+"Le plus intéressant que"
+],
+answer:0
+},
+
+{
+subject:"Français",
+question:"Dans « Bien qu'il soit tard, nous continuons », la subordonnée exprime :",
+options:[
+"La concession",
+"La cause",
+"Le but",
+"La conséquence"
+],
+answer:0
+},
+
+/* ================= ENGLISH TEXT ================= */
+
+{
+subject:"English",
+question:"What is the main idea of the passage?",
+options:[
+"Successful learning depends entirely on natural intelligence.",
+"Effective learning requires active practice, regularity and analysis of mistakes.",
+"Grammar should never be studied.",
+"Students should only study immediately before an exam."
+],
+answer:1,
+text:`Learning a foreign language requires more than knowing a collection of grammatical rules. Grammar provides a framework, but learners must also develop the ability to recognize structures, produce sentences and understand meaning in different situations. This ability usually develops gradually rather than appearing immediately after a rule has been studied.
+
+One reason progress can seem slow is that understanding and automatic use are different. A student may correctly explain the difference between the present perfect and the past simple but still hesitate when choosing between them in a conversation. This does not necessarily mean that the rule has been forgotten. It may simply mean that the learner has not yet practised it enough in meaningful contexts.
+
+Active practice can help reduce this gap. Instead of reading a list of examples repeatedly, learners can attempt to create their own sentences, answer questions without looking at the solution and then compare their answers with a reliable correction. The effort required to retrieve information is useful because it shows whether the learner can actually produce the language independently.
+
+Mistakes are another important part of the process. A learner who notices a repeated error can investigate its cause. Perhaps the problem is an incorrect verb form; perhaps a preposition has been confused with another one; perhaps the learner has transferred a structure from the first language. Once the cause is identified, practice can become more focused.
+
+Regular exposure is also valuable. Ten or twenty minutes of concentrated practice on a regular basis may be easier to maintain than a very long session followed by several days without contact with the language. Regular practice provides repeated opportunities to meet familiar words and structures in new contexts.
+
+Finally, effective learners do not expect perfection at every stage. They understand that competence develops through cycles of learning, attempting, making mistakes, correcting and trying again. Progress is therefore not always visible from one day to the next, but consistent practice gradually changes what feels difficult into something more automatic.`
+},
+
+{
+subject:"English",
+question:"Why may a learner hesitate even after understanding a grammar rule?",
+options:[
+"Because understanding a rule and using it automatically are different stages.",
+"Because grammar rules cannot be learned.",
+"Because vocabulary has no role.",
+"Because hesitation always means the rule was forgotten."
+],
+answer:0,
+text:""
+},
+
+{
+subject:"English",
+question:"What does active practice involve according to the passage?",
+options:[
+"Only reading examples.",
+"Trying to produce language independently and checking the result.",
+"Memorizing translations without context.",
+"Avoiding difficult questions."
+],
+answer:1,
+text:""
+},
+
+{
+subject:"English",
+question:"What can repeated mistakes reveal?",
+options:[
+"They can reveal a specific underlying difficulty.",
+"They prove that learning is impossible.",
+"They show that every grammar rule is wrong.",
+"They have no relationship with learning."
+],
+answer:0,
+text:""
+},
+
+{
+subject:"English",
+question:"What does the passage say about regular practice?",
+options:[
+"It can be easier to maintain than occasional very long sessions.",
+"It is less useful than studying once a month.",
+"It prevents learners from making mistakes.",
+"It guarantees immediate fluency."
+],
+answer:0,
+text:""
+},
+
+/* ================= ENGLISH GRAMMAR ================= */
+
+{
+subject:"English",
+question:"My brother usually ___ football on Sundays.",
+options:[
+"plays",
+"is playing",
+"played",
+"has played"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"Be quiet! The baby ___.",
+options:[
+"sleeps",
+"slept",
+"is sleeping",
+"has slept"
+],
+answer:2
+},
+
+{
+subject:"English",
+question:"When I arrived, they ___ dinner.",
+options:[
+"have",
+"were having",
+"had",
+"are having"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"She ___ this book three times.",
+options:[
+"read",
+"has read",
+"is reading",
+"reads yesterday"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"I ___ you tomorrow.",
+options:[
+"called",
+"call yesterday",
+"will call",
+"have called tomorrow"
+],
+answer:2
+},
+
+{
+subject:"English",
+question:"You ___ wear a seat belt in a car.",
+options:[
+"must",
+"must to",
+"should to",
+"can to"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"If water reaches 100°C, it ___.",
+options:[
+"boils",
+"would boil",
+"will have boiled",
+"boiled"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"If I were you, I ___ more carefully.",
+options:[
+"would study",
+"will study",
+"studied",
+"would have studied"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"If she had left earlier, she ___ the bus.",
+options:[
+"would catch",
+"will catch",
+"would have caught",
+"caught"
+],
+answer:2
+},
+
+{
+subject:"English",
+question:"This exercise is ___ than the previous one.",
+options:[
+"difficult",
+"more difficult",
+"most difficult",
+"the difficultest"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"Mount Everest is ___ mountain above sea level.",
+options:[
+"higher",
+"the highest",
+"highest than",
+"the most high"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"He bought ___ umbrella because it was raining.",
+options:[
+"a",
+"an",
+"the a",
+"some"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"There isn't ___ milk left.",
+options:[
+"many",
+"much",
+"a few",
+"several"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"___ did you meet yesterday?",
+options:[
+"Who",
+"Where",
+"When",
+"How"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"___ have you lived here?",
+options:[
+"How long",
+"How many",
+"How much",
+"How often"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"Which sentence is correct?",
+options:[
+"She has lived here since 2021.",
+"She lives here since 2021.",
+"She is living here since 2021.",
+"She lived here since five years."
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"Which sentence is correct?",
+options:[
+"Neither John nor his friends is ready.",
+"Neither John nor his friends are ready.",
+"Neither John or his friends are ready.",
+"Neither John nor his friends be ready."
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"Which sentence is correct?",
+options:[
+"Hardly had I arrived when it started raining.",
+"Hardly I had arrived when it started raining.",
+"Hardly had I arrive when it started raining.",
+"Hardly I arrived when it had started raining."
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"Which word means « perspicace »?",
+options:[
+"Perspicacious",
+"Transient",
+"Ephemeral",
+"Reluctant"
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"If something is « ephemeral », it is :",
+options:[
+"Permanent",
+"Short-lived",
+"Extremely expensive",
+"Impossible to understand"
+],
+answer:1
+},
+
+{
+subject:"English",
+question:"Which sentence correctly uses a comparative?",
+options:[
+"This book is more useful than that one.",
+"This book is more useful that that one.",
+"This book is useful than that one.",
+"This book more useful than that one."
+],
+answer:0
+},
+
+{
+subject:"English",
+question:"Choose the correct question.",
+options:[
+"Why did she leave?",
+"Why she did leave?",
+"Why did she left?",
+"Why she leave?"
+],
+answer:0
+},
+
+/* ================= MATHS ================= */
+
+{
+subject:"Maths",
+question:"Soit f(x)=(2x+1)/(x−3). Quel est Df ?",
+options:[
+"R",
+"R\\{3}",
+"R\\{−3}",
+"]3,+∞["
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Si f(x)=2x−1 et g(x)=x²+3, alors (g∘f)(x) vaut :",
+options:[
+"2x²+2",
+"(2x−1)²+3",
+"2x²−1",
+"x²+2"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Soit f(x)=x²−4x+1. La fonction f est :",
+options:[
+"Impaire",
+"Paire",
+"Ni paire ni impaire",
+"Périodique de période 2"
+],
+answer:2
+},
+
+{
+subject:"Maths",
+question:"La fonction f(x)=x³−x est :",
+options:[
+"Paire",
+"Impaire",
+"Constante",
+"Périodique"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Si f est paire, sa courbe possède une symétrie par rapport :",
+options:[
+"à l'axe des ordonnées",
+"à l'axe des abscisses",
+"à l'origine",
+"à la droite y=x"
+],
+answer:0
+},
+
+{
+subject:"Maths",
+question:"Si f est impaire, sa courbe possède une symétrie centrale de centre :",
+options:[
+"(1,1)",
+"(0,0)",
+"(0,1)",
+"(1,0)"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"La fonction sin(x) est périodique de période :",
+options:[
+"π",
+"2π",
+"1",
+"π/2"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"La fonction cos(x) est :",
+options:[
+"Impaire et de période π",
+"Paire et de période 2π",
+"Ni paire ni périodique",
+"Impaire et de période 2π"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"lim (x²−9)/(x−3), lorsque x tend vers 3, vaut :",
+options:[
+"0",
+"3",
+"6",
+"+∞"
+],
+answer:2
+},
+
+{
+subject:"Maths",
+question:"lim (3x²+1)/(x²−2), lorsque x tend vers +∞, vaut :",
+options:[
+"0",
+"1",
+"2",
+"3"
+],
+answer:3
+},
+
+{
+subject:"Maths",
+question:"Pour f(x)=1/(x−2), la droite x=2 est :",
+options:[
+"Une asymptote horizontale",
+"Une asymptote verticale",
+"Une asymptote oblique",
+"Un axe de symétrie uniquement"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Pour f(x)=(2x+1)/(x−1), l'asymptote horizontale est :",
+options:[
+"y=1",
+"y=2",
+"x=1",
+"y=−1"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Le domaine de définition de ln(3x−6) est :",
+options:[
+"x≥2",
+"x>2",
+"x<2",
+"R"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"La dérivée de f(x)=ln(x²+1) est :",
+options:[
+"1/(x²+1)",
+"2x/(x²+1)",
+"ln(2x)",
+"x²+1"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"La dérivée de f(x)=(3x+1)^4 est :",
+options:[
+"4(3x+1)^3",
+"12(3x+1)^3",
+"3(3x+1)^4",
+"12(3x+1)^4"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"La dérivée de f(x)=x²ln(x), pour x>0, est :",
+options:[
+"2xln(x)+x",
+"xln(x)+2",
+"2ln(x)+x",
+"x²/x"
+],
+answer:0
+},
+
+{
+subject:"Maths",
+question:"La fonction f(x)=e^(2x) a pour dérivée :",
+options:[
+"e^(2x)",
+"2e^(2x)",
+"2xe^(2x)",
+"e^x"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Pour f(x)=x²−6x+5, l'abscisse du sommet de la parabole est :",
+options:[
+"−3",
+"3",
+"5",
+"6"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"La négation de « Il existe au moins un x tel que P(x) » est :",
+options:[
+"Pour tout x, P(x)",
+"Pour tout x, non-P(x)",
+"Il existe un x tel que non-P(x)",
+"P(x) et non-P(x)"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Si P ⇒ Q et Q ⇒ P, alors :",
+options:[
+"P et Q sont équivalentes",
+"P est nécessairement faux",
+"Q est nécessairement faux",
+"P implique non-Q"
+],
+answer:0
+},
+
+{
+subject:"Maths",
+question:"La contraposée de « Si x>2 alors x²>4 » est :",
+options:[
+"Si x²≤4 alors x≤2",
+"Si x²>4 alors x>2",
+"Si x≤2 alors x²≤4",
+"Si x²=4 alors x=2"
+],
+answer:0
+},
+
+{
+subject:"Maths",
+question:"Si f(x)=x² sur R, f est-elle injective ?",
+options:[
+"Oui, car x² augmente toujours",
+"Non, car f(−x)=f(x)",
+"Oui, car son domaine est R",
+"Non, parce qu'elle est périodique"
+],
+answer:1
+},
+
+{
+subject:"Maths",
+question:"Pour f(x)=x³, l'application de R vers R est :",
+options:[
+"Injective mais non surjective",
+"Surjective mais non injective",
+"Bijective",
+"Ni injective ni surjective"
+],
+answer:2
+},
+
+{
+subject:"Maths",
+question:"Si lim f(x)=+∞ lorsque x→2− et lim f(x)=−∞ lorsque x→2+, alors :",
+options:[
+"x=2 est une asymptote verticale",
+"y=2 est une asymptote horizontale",
+"x=2 est une asymptote oblique",
+"f est nécessairement paire"
+],
+answer:0
+},
+
+{
+subject:"Maths",
+question:"Pour f(x)=x+1/x, l'expression est définie sur :",
+options:[
+"R",
+"R\\{0}",
+"]0,+∞[",
+"R\\{1}"
+],
+answer:1
+}
+
 ];
 
-/* ===================== SECTIONS ===================== */
-const SECTIONS = [
-  {id:'culture', name:'Culture Générale', text:null},
-  {id:'francais', name:'Français', text:FRENCH_TEXT},
-  {id:'anglais', name:'Anglais', text:ENGLISH_TEXT},
-  {id:'maths', name:'Mathématiques', text:null}
-];
 
-const ALL_QUESTIONS = [];
-SECTIONS.forEach((section, sIdx) => {
-  const list = QUESTIONS.filter(q => q.section === section.id);
-  list.forEach((q, qIdx) => {
-    ALL_QUESTIONS.push(Object.assign({}, q, {
-      sectionId: section.id,
-      sectionName: section.name,
-      sectionIndex: sIdx,
-      questionInSection: qIdx,
-      totalInSection: list.length,
-      globalIndex: ALL_QUESTIONS.length
-    }));
-  });
-});
+/* =========================================================
+   VERIFICATION AUTOMATIQUE
+========================================================= */
 
-/* ===================== ÉTAT ===================== */
-const state = {
-  testActive:false,
-  cheated:false,
-  currentGlobalIdx:0,
-  answers:new Array(ALL_QUESTIONS.length).fill(null),
-  questionTimer:null,
-  questionTimeLeft:60,
-  textBudget:{francais:900, anglais:900},
-  textScreenTimer:null,
-  textScreenActive:false,
-  modalTimer:null,
-  modalOpen:false,
-  currentTextSection:null,
-  currentPhase:'home'
+if(QUESTIONS.length !== 100){
+    alert("Erreur : le test doit contenir exactement 100 questions.");
+    throw new Error("QUESTIONS != 100");
+}
+
+for(let q of QUESTIONS){
+    if(
+        !q.question ||
+        !Array.isArray(q.options) ||
+        q.options.length !== 4 ||
+        q.answer < 0 ||
+        q.answer > 3
+    ){
+        throw new Error("Question mal configurée.");
+    }
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let questions = [];
+let current = 0;
+let answers = [];
+let candidate = "";
+
+let interval = null;
+let remaining = 60;
+
+let readingInterval = null;
+let readingRemaining = 900;
+
+let readingDone = {
+    Français:false,
+    English:false
 };
 
-/* ===================== UTILITAIRES ===================== */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-function formatTime(sec){
-  if (sec < 0) sec = 0;
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return m + ':' + String(s).padStart(2, '0');
-}
-function updateQuestionTimer(){
-  const el = document.getElementById('question-timer');
-  el.textContent = formatTime(state.questionTimeLeft);
-  el.classList.toggle('danger', state.questionTimeLeft <= 10);
-}
-function updateTextScreenTimer(){
-  const sec = state.textBudget[state.currentTextSection];
-  const el = document.getElementById('text-timer');
-  el.textContent = formatTime(sec);
-  el.classList.toggle('danger', sec <= 30);
-}
-function updateModalTimer(){
-  const sec = state.textBudget[state.currentTextSection];
-  const el = document.getElementById('modal-timer');
-  el.textContent = formatTime(sec);
-  el.classList.toggle('danger', sec <= 30);
+
+/* =========================================================
+   OUTILS
+========================================================= */
+
+function $(id){
+    return document.getElementById(id);
 }
 
-/* ===================== FLUX DU TEST ===================== */
-function startTest(){
-  state.testActive = true;
-  state.cheated = false;
-  state.currentGlobalIdx = 0;
-  state.answers = new Array(ALL_QUESTIONS.length).fill(null);
-  state.textBudget = {francais:900, anglais:900};
-
-  const firstQ = ALL_QUESTIONS[0];
-  const section = SECTIONS[firstQ.sectionIndex];
-  if (section.text){
-    showTextScreen(firstQ.sectionIndex);
-  } else {
-    showQuizScreen();
-  }
-  activateAntiCheat();
+function show(id){
+    ["home","reading","quiz","results"].forEach(x=>{
+        $(x).classList.add("hidden");
+    });
+    $(id).classList.remove("hidden");
 }
 
-function showTextScreen(sectionIdx){
-  state.currentPhase = 'text';
-  state.currentTextSection = SECTIONS[sectionIdx].id;
-  const section = SECTIONS[sectionIdx];
-  document.getElementById('text-title').textContent = 'Lecture — ' + section.name;
-  document.getElementById('text-content').innerHTML = section.text;
-  showScreen('screen-text');
-
-  state.textScreenActive = true;
-  updateTextScreenTimer();
-
-  if (state.textScreenTimer) clearInterval(state.textScreenTimer);
-  state.textScreenTimer = setInterval(() => {
-    if (!state.textScreenActive || !state.testActive) return;
-    state.textBudget[state.currentTextSection]--;
-    updateTextScreenTimer();
-    if (state.textBudget[state.currentTextSection] <= 0){
-      clearInterval(state.textScreenTimer);
-      state.textScreenTimer = null;
-      startSectionQuestions(state.currentTextSection);
+function shuffle(array){
+    for(let i=array.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
     }
-  }, 1000);
+    return array;
 }
 
-function startSectionQuestions(sectionId){
-  state.textScreenActive = false;
-  if (state.textScreenTimer){ clearInterval(state.textScreenTimer); state.textScreenTimer = null; }
 
-  const sectionIdx = SECTIONS.findIndex(s => s.id === sectionId);
-  const idx = ALL_QUESTIONS.findIndex(q => q.sectionIndex === sectionIdx);
-  if (idx >= 0){
-    state.currentGlobalIdx = idx;
-    showQuizScreen();
-  } else {
-    finishTest();
-  }
+/* =========================================================
+   PREPARATION
+========================================================= */
+
+function prepareQuestions(){
+
+    questions = QUESTIONS.map((q,index)=>{
+
+        let choices=q.options.map((text,index)=>({
+            text:text,
+            original:index
+        }));
+
+        shuffle(choices);
+
+        return {
+            ...q,
+            choices:choices,
+            originalIndex:index
+        };
+
+    });
+
+    answers=Array(100).fill(null);
 }
 
-function showQuizScreen(){
-  state.currentPhase = 'quiz';
-  showScreen('screen-quiz');
-  loadQuestion();
-}
 
-function loadQuestion(){
-  const q = ALL_QUESTIONS[state.currentGlobalIdx];
-  document.getElementById('quiz-section').textContent = q.sectionName;
-  document.getElementById('quiz-progress').textContent =
-    'Question ' + (q.questionInSection + 1) + ' / ' + q.totalInSection;
-  document.getElementById('question-text').textContent = q.q;
+/* =========================================================
+   DEMARRAGE
+========================================================= */
 
-  const progress = ((state.currentGlobalIdx + 1) / ALL_QUESTIONS.length) * 100;
-  document.getElementById('progress-fill').style.width = progress + '%';
+$("startBtn").onclick=function(){
 
-  const container = document.getElementById('options-container');
-  container.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option';
-    btn.innerHTML = '<strong>' + String.fromCharCode(65 + i) + '.</strong> ' + opt;
-    btn.addEventListener('click', () => selectOption(i));
-    if (state.answers[state.currentGlobalIdx] === i) btn.classList.add('selected');
-    container.appendChild(btn);
-  });
+    candidate=$("candidateName").value.trim();
 
-  const section = SECTIONS[q.sectionIndex];
-  const btnText = document.getElementById('btn-view-text');
-  if (section.text){
-    const remaining = state.textBudget[section.id];
-    if (remaining > 0){
-      btnText.style.display = 'inline-block';
-      btnText.disabled = false;
-      btnText.textContent = '📖 Voir le texte (' + formatTime(remaining) + ')';
-      btnText.onclick = () => openTextModal(section);
-    } else {
-      btnText.style.display = 'inline-block';
-      btnText.disabled = true;
-      btnText.textContent = '📖 Temps du texte épuisé';
-      btnText.onclick = null;
+    if(!candidate){
+        alert("Veuillez entrer votre nom et postnom.");
+        return;
     }
-  } else {
-    btnText.style.display = 'none';
-  }
 
-  state.questionTimeLeft = 60;
-  updateQuestionTimer();
-  if (state.questionTimer) clearInterval(state.questionTimer);
-  state.questionTimer = setInterval(() => {
-    if (!state.testActive) return;
-    state.questionTimeLeft--;
+    prepareQuestions();
+
+    current=0;
+
+    readingDone={
+        Français:false,
+        English:false
+    };
+
+    showQuizOrReading();
+};
+
+
+/* =========================================================
+   ROUTAGE
+========================================================= */
+
+function showQuizOrReading(){
+
+    let q=questions[current];
+
+    if(
+        q.text &&
+        (q.subject==="Français" || q.subject==="English") &&
+        !readingDone[q.subject]
+    ){
+        startReading(q.subject,q.text);
+        return;
+    }
+
+    renderQuestion();
+}
+
+
+/* =========================================================
+   LECTURE
+========================================================= */
+
+function startReading(subject,text){
+
+    clearInterval(interval);
+    clearInterval(readingInterval);
+
+    show("reading");
+
+    $("readingTitle").textContent=
+        subject==="Français"
+        ?"Lecture — Français"
+        :"Reading — English";
+
+    $("readingText").textContent=text;
+
+    readingRemaining=900;
+
+    updateReadingTimer();
+
+    readingInterval=setInterval(()=>{
+
+        readingRemaining--;
+
+        updateReadingTimer();
+
+        if(readingRemaining<=0){
+
+            clearInterval(readingInterval);
+
+            readingDone[subject]=true;
+
+            renderQuestion();
+        }
+
+    },1000);
+
+    $("skipReading").onclick=function(){
+
+        clearInterval(readingInterval);
+
+        readingDone[subject]=true;
+
+        renderQuestion();
+
+    };
+}
+
+function updateReadingTimer(){
+
+    let min=Math.floor(readingRemaining/60);
+    let sec=readingRemaining%60;
+
+    $("readingTimer").textContent=
+        String(min).padStart(2,"0")
+        +":"
+        +String(sec).padStart(2,"0");
+}
+
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+function renderQuestion(){
+
+    clearInterval(readingInterval);
+    clearInterval(interval);
+
+    show("quiz");
+
+    let q=questions[current];
+
+    $("questionNumber").textContent=
+        "Question "+(current+1)+" / 100";
+
+    $("subject").textContent=q.subject;
+
+    $("questionText").textContent=q.question;
+
+    $("progressFill").style.width=
+        ((current+1)/100*100)+"%";
+
+    $("options").innerHTML="";
+
+    q.choices.forEach((choice,index)=>{
+
+        let button=document.createElement("button");
+
+        button.className="option";
+
+        if(answers[current]===choice.original){
+            button.classList.add("selected");
+        }
+
+        button.textContent=
+            String.fromCharCode(65+index)
+            +". "
+            +choice.text;
+
+        button.onclick=function(){
+
+            answers[current]=choice.original;
+
+            renderOptions();
+
+            renderNavigation();
+        };
+
+        $("options").appendChild(button);
+
+    });
+
+    renderNavigation();
+
+    startQuestionTimer();
+}
+
+
+/* =========================================================
+   REPONSE
+========================================================= */
+
+function renderOptions(){
+
+    let q=questions[current];
+
+    [...$("options").children].forEach((button,index)=>{
+
+        button.classList.toggle(
+            "selected",
+            answers[current]===q.choices[index].original
+        );
+
+    });
+}
+
+
+/* =========================================================
+   TIMER QUESTION
+========================================================= */
+
+function startQuestionTimer(){
+
+    clearInterval(interval);
+
+    remaining=60;
+
     updateQuestionTimer();
-    if (state.questionTimeLeft <= 0){
-      clearInterval(state.questionTimer);
-      state.questionTimer = null;
-      nextQuestion();
-    }
-  }, 1000);
+
+    interval=setInterval(()=>{
+
+        remaining--;
+
+        updateQuestionTimer();
+
+        if(remaining<=0){
+
+            clearInterval(interval);
+
+            nextQuestion();
+
+        }
+
+    },1000);
 }
 
-function selectOption(i){
-  state.answers[state.currentGlobalIdx] = i;
-  document.querySelectorAll('.option').forEach((btn, idx) => {
-    btn.classList.toggle('selected', idx === i);
-  });
+function updateQuestionTimer(){
+
+    $("questionTimer").textContent=
+        "00:"+String(remaining).padStart(2,"0");
 }
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function nextQuestion(){
-  if (state.questionTimer){ clearInterval(state.questionTimer); state.questionTimer = null; }
-  closeTextModal();
 
-  const currentQ = ALL_QUESTIONS[state.currentGlobalIdx];
-  const nextIdx = state.currentGlobalIdx + 1;
+    clearInterval(interval);
 
-  if (nextIdx >= ALL_QUESTIONS.length){
-    finishTest();
-    return;
-  }
+    if(current<99){
 
-  const nextQ = ALL_QUESTIONS[nextIdx];
-  state.currentGlobalIdx = nextIdx;
+        current++;
 
-  if (nextQ.sectionIndex !== currentQ.sectionIndex){
-    const nextSection = SECTIONS[nextQ.sectionIndex];
-    if (nextSection.text){
-      showTextScreen(nextQ.sectionIndex);
-      return;
+        showQuizOrReading();
+
+    }else{
+
+        finishTest();
+
     }
-  }
-  loadQuestion();
 }
 
-/* ===================== MODAL TEXTE ===================== */
-function openTextModal(section){
-  state.currentTextSection = section.id;
-  document.getElementById('modal-title').textContent = 'Texte — ' + section.name;
-  document.getElementById('modal-body').innerHTML = section.text;
-  document.getElementById('text-modal').classList.add('open');
-  updateModalTimer();
+$("nextBtn").onclick=nextQuestion;
 
-  state.modalOpen = true;
-  if (state.modalTimer) clearInterval(state.modalTimer);
-  state.modalTimer = setInterval(() => {
-    if (!state.modalOpen || !state.testActive) return;
-    state.textBudget[state.currentTextSection]--;
-    updateModalTimer();
-    const btn = document.getElementById('btn-view-text');
-    if (btn && SECTIONS[ALL_QUESTIONS[state.currentGlobalIdx].sectionIndex].text){
-      btn.textContent = '📖 Voir le texte (' + formatTime(state.textBudget[state.currentTextSection]) + ')';
+
+$("previousBtn").onclick=function(){
+
+    clearInterval(interval);
+
+    if(current>0){
+
+        current--;
+
+        showQuizOrReading();
+
     }
-    if (state.textBudget[state.currentTextSection] <= 0){
-      closeTextModal();
-      loadQuestion();
-    }
-  }, 1000);
-}
 
-function closeTextModal(){
-  state.modalOpen = false;
-  if (state.modalTimer){ clearInterval(state.modalTimer); state.modalTimer = null; }
-  document.getElementById('text-modal').classList.remove('open');
-}
+};
 
-/* ===================== ANTI-TRICHE ===================== */
-let antiCheatBound = false;
-function activateAntiCheat(){
-  if (antiCheatBound) return;
-  antiCheatBound = true;
 
-  document.addEventListener('visibilitychange', () => {
-    if (state.testActive && !state.cheated && document.hidden){
-      triggerCheat();
-    }
-  });
+function renderNavigation(){
 
-  window.addEventListener('blur', () => {
-    if (state.testActive && !state.cheated){
-      setTimeout(() => {
-        if (state.testActive && !state.cheated && !document.hasFocus()){
-          triggerCheat();
+    $("questionNavigation").innerHTML="";
+
+    questions.forEach((q,index)=>{
+
+        let button=document.createElement("button");
+
+        button.className="qbtn";
+
+        if(answers[index]!==null){
+            button.classList.add("done");
         }
-      }, 200);
-    }
-  });
-}
 
-function triggerCheat(){
-  state.cheated = true;
-  state.testActive = false;
-  state.textScreenActive = false;
-  state.modalOpen = false;
-  if (state.questionTimer){ clearInterval(state.questionTimer); state.questionTimer = null; }
-  if (state.textScreenTimer){ clearInterval(state.textScreenTimer); state.textScreenTimer = null; }
-  if (state.modalTimer){ clearInterval(state.modalTimer); state.modalTimer = null; }
-  closeTextModal();
-  showScreen('screen-cheat');
-}
+        if(index===current){
+            button.classList.add("current");
+        }
 
-/* ===================== RÉSULTATS ===================== */
-function finishTest(){
-  state.testActive = false;
-  state.currentPhase = 'results';
-  state.textScreenActive = false;
-  state.modalOpen = false;
-  if (state.questionTimer){ clearInterval(state.questionTimer); state.questionTimer = null; }
-  if (state.textScreenTimer){ clearInterval(state.textScreenTimer); state.textScreenTimer = null; }
-  if (state.modalTimer){ clearInterval(state.modalTimer); state.modalTimer = null; }
-  closeTextModal();
+        button.textContent=index+1;
 
-  const sectionScores = {};
-  SECTIONS.forEach(s => { sectionScores[s.id] = {correct:0, total:0, name:s.name}; });
-  const errors = [];
-  ALL_QUESTIONS.forEach((q, i) => {
-    const answer = state.answers[i];
-    sectionScores[q.sectionId].total++;
-    if (answer === q.correct){
-      sectionScores[q.sectionId].correct++;
-    } else {
-      errors.push({question:q, given:answer});
-    }
-  });
+        button.onclick=function(){
 
-  let totalCorrect = 0;
-  const totalQuestions = ALL_QUESTIONS.length;
+            clearInterval(interval);
 
-  let summaryHtml = '<div class="results-grid">';
-  SECTIONS.forEach(s => {
-    const sc = sectionScores[s.id];
-    totalCorrect += sc.correct;
-    const pct = Math.round((sc.correct / sc.total) * 100);
-    summaryHtml +=
-      '<div class="result-card">' +
-        '<h3>' + sc.name + '</h3>' +
-        '<div class="result-score">' + sc.correct + '/' + sc.total + '</div>' +
-        '<div class="result-pct">' + pct + '%</div>' +
-      '</div>';
-  });
-  summaryHtml += '</div>';
+            current=index;
 
-  const totalPct = Math.round((totalCorrect / totalQuestions) * 100);
-  summaryHtml +=
-    '<div class="total-result">' +
-      '<h3>Score Total</h3>' +
-      '<div class="total-score">' + totalCorrect + '/' + totalQuestions + '</div>' +
-      '<div class="total-pct">' + totalPct + '%</div>' +
-    '</div>';
+            showQuizOrReading();
 
-  document.getElementById('results-summary').innerHTML = summaryHtml;
+        };
 
-  let errorsHtml = '<h3>Détail des erreurs</h3>';
-  if (errors.length === 0){
-    errorsHtml += '<p class="no-errors">🎉 Aucune erreur ! Niveau exceptionnel !</p>';
-  } else {
-    errorsHtml += '<div class="errors-list">';
-    errors.forEach(e => {
-      const q = e.question;
-      const givenText = (e.given === null)
-        ? '<em>Non répondu (temps écoulé)</em>'
-        : String.fromCharCode(65 + e.given) + '. ' + q.options[e.given];
-      const correctText = String.fromCharCode(65 + q.correct) + '. ' + q.options[q.correct];
-      errorsHtml +=
-        '<div class="error-item">' +
-          '<div class="error-header">' +
-            '<span class="error-section">' + q.sectionName + '</span>' +
-            '<span class="error-num">Q' + (q.questionInSection + 1) + '</span>' +
-          '</div>' +
-          '<div class="error-question">' + q.q + '</div>' +
-          '<div class="error-answer">' +
-            '<span class="given">❌ Votre réponse : ' + givenText + '</span>' +
-            '<span class="correct">✅ Bonne réponse : ' + correctText + '</span>' +
-          '</div>' +
-        '</div>';
+        $("questionNavigation").appendChild(button);
+
     });
-    errorsHtml += '</div>';
-  }
-  document.getElementById('results-errors').innerHTML = errorsHtml;
-  showScreen('screen-results');
+
 }
 
-/* ===================== RESET ===================== */
-function resetToHome(){
-  state.testActive = false;
-  state.cheated = false;
-  state.currentGlobalIdx = 0;
-  state.answers = new Array(ALL_QUESTIONS.length).fill(null);
-  state.textBudget = {francais:900, anglais:900};
-  state.currentPhase = 'home';
-  state.textScreenActive = false;
-  state.modalOpen = false;
-  if (state.questionTimer){ clearInterval(state.questionTimer); state.questionTimer = null; }
-  if (state.textScreenTimer){ clearInterval(state.textScreenTimer); state.textScreenTimer = null; }
-  if (state.modalTimer){ clearInterval(state.modalTimer); state.modalTimer = null; }
-  closeTextModal();
-  showScreen('screen-home');
+
+/* =========================================================
+   TEXTE
+========================================================= */
+
+$("textBtn").onclick=function(){
+
+    let q=questions[current];
+
+    if(!q.text){
+
+        alert("Cette question ne dépend pas d'un texte.");
+
+        return;
+    }
+
+    $("modalTitle").textContent=
+        q.subject==="Français"
+        ?"Texte français"
+        :"English text";
+
+    $("modalText").textContent=q.text;
+
+    $("textModal").style.display="flex";
+};
+
+$("closeModal").onclick=function(){
+    $("textModal").style.display="none";
+};
+
+$("textModal").onclick=function(e){
+
+    if(e.target===$("textModal")){
+        $("textModal").style.display="none";
+    }
+
+};
+
+
+/* =========================================================
+   RESULTATS
+========================================================= */
+
+function finishTest(){
+
+    clearInterval(interval);
+    clearInterval(readingInterval);
+
+    let score=0;
+
+    let subjectScore={
+        "Culture générale":[0,0],
+        "Français":[0,0],
+        "English":[0,0],
+        "Maths":[0,0]
+    };
+
+    let errorHTML="";
+
+    questions.forEach((q,index)=>{
+
+        let correct=
+            answers[index]===q.answer;
+
+        subjectScore[q.subject][1]++;
+
+        if(correct){
+
+            score++;
+
+            subjectScore[q.subject][0]++;
+
+        }else{
+
+            let chosen="Aucune réponse";
+
+            if(answers[index]!==null){
+
+                let found=q.choices.find(
+                    c=>c.original===answers[index]
+                );
+
+                if(found){
+                    chosen=found.text;
+                }
+
+            }
+
+            errorHTML+=`
+
+            <div class="error">
+
+                <b>Question ${index+1}</b>
+
+                <p>${q.question}</p>
+
+                <p>
+                    <b>Ta réponse :</b>
+                    ${chosen}
+                </p>
+
+                <p>
+                    <b>Bonne réponse :</b>
+                    ${q.options[q.answer]}
+                </p>
+
+            </div>
+
+            `;
+
+        }
+
+    });
+
+
+    show("results");
+
+    $("finalScore").textContent=
+        candidate+
+        " : "+
+        score+
+        "/100 — "+
+        score+
+        "%";
+
+
+    $("subjectScores").innerHTML="";
+
+    Object.keys(subjectScore).forEach(subject=>{
+
+        let data=subjectScore[subject];
+
+        let badge=document.createElement("span");
+
+        badge.className="badge";
+
+        badge.textContent=
+            subject+
+            " : "+
+            data[0]+"/"+
+            data[1];
+
+        $("subjectScores").appendChild(badge);
+
+    });
+
+
+    $("errors").innerHTML=
+        errorHTML ||
+        "<p>Aucune erreur. Score parfait : 100/100.</p>";
+
 }
 
-/* ===================== ÉVÉNEMENTS ===================== */
-document.getElementById('btn-start').addEventListener('click', startTest);
-
-document.getElementById('btn-skip-text').addEventListener('click', () => {
-  startSectionQuestions(state.currentTextSection);
-});
-document.getElementById('btn-start-questions').addEventListener('click', () => {
-  startSectionQuestions(state.currentTextSection);
-});
-
-document.getElementById('btn-next').addEventListener('click', nextQuestion);
-document.getElementById('btn-close-modal').addEventListener('click', closeTextModal);
-
-document.getElementById('btn-restart').addEventListener('click', () => {
-  if (confirm('Recommencer le test depuis le début ?')) resetToHome();
-});
-document.getElementById('btn-cheat-home').addEventListener('click', resetToHome);
-document.getElementById('text-modal').addEventListener('click', (e) => {
-  if (e.target.id === 'text-modal') closeTextModal();
-});
 </script>
+
 </body>
   </html>
